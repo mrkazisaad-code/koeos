@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dark background matching site palette -->
+  <rect width="32" height="32" rx="5" fill="#0A0A0A"/>
+  <!-- Bold K letter -->
+  <text x="4" y="25" font-family="'Arial', 'Helvetica', sans-serif" font-size="23" font-weight="900" fill="#FFFFFF" letter-spacing="-0.5">K</text>
+  <!-- Teal accent dot — mirrors the nav logo dot -->
+  <circle cx="26.5" cy="7.5" r="3.5" fill="#28B5B5"/>
+</svg>

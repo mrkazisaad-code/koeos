@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Start with a working session — a structured diagnostic that assesses production conversion, AI exposure, and operating model readiness.">
+  <title>Contact — Koeos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav scrolled" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Koeos<span class="nav__logo-dot"></span></a>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html"        class="nav__link">Home</a></li>
+        <li><a href="the-model.html"    class="nav__link">The Model</a></li>
+        <li><a href="capabilities.html" class="nav__link">Capabilities</a></li>
+        <li><a href="ventures.html"     class="nav__link">Ventures</a></li>
+        <li><a href="sectors.html"      class="nav__link">Sectors</a></li>
+        <li><a href="team.html"         class="nav__link">Team</a></li>
+        <li><a href="contact.html"      class="nav__link active">Contact</a></li>
+      </ul>
+      <a href="contact.html" class="nav__cta">Book a session</a>
+      <button class="nav__hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav__mobile" role="dialog" aria-label="Mobile menu">
+    <button class="nav__mobile-close" aria-label="Close menu">&times;</button>
+    <a href="index.html"        class="nav__mobile-link">Home</a>
+    <a href="the-model.html"    class="nav__mobile-link">The Model</a>
+    <a href="capabilities.html" class="nav__mobile-link">Capabilities</a>
+    <a href="ventures.html"     class="nav__mobile-link">Ventures</a>
+    <a href="sectors.html"      class="nav__mobile-link">Sectors</a>
+    <a href="team.html"         class="nav__mobile-link">Team</a>
+    <a href="contact.html"      class="nav__mobile-link">Contact</a>
+    <a href="contact.html"      class="nav__mobile-cta">Book a session</a>
+  </div>
+
+  <!-- CONTACT SECTION — main content -->
+  <section style="position: relative; overflow: hidden; padding: calc(72px + var(--space-5xl)) 0 var(--space-5xl); background: var(--bg-primary); min-height: 100vh;">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero__vignette" aria-hidden="true"></div>
+    <div class="container" style="position: relative; z-index: 3;">
+
+      <div class="contact-grid">
+
+        <!-- Left: info -->
+        <div class="reveal">
+          <p class="section-label" style="margin-bottom: var(--space-md);">Contact</p>
+          <h1 class="contact-info__headline">Start with a working session.</h1>
+          <p class="contact-info__sub">A working session is a structured diagnostic — typically 1–2 days — that assesses production conversion, AI exposure, and operating model readiness. It is the entry point for most engagements.</p>
+
+          <div class="contact-fit">
+            <p class="contact-fit__title">Best fit</p>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: var(--space-sm); line-height: 1.65;">Organizations with active AI investment, visible pilot activity, and pressure to convert deployment into governed, commercially defensible value.</p>
+          </div>
+
+          <div class="contact-fit" style="margin-top: var(--space-lg);">
+            <p class="contact-fit__title">Reasons to reach out</p>
+            <ul class="contact-fit__list">
+              <li>You have AI investment but weak production conversion</li>
+              <li>You need to assess AI exposure across the enterprise</li>
+              <li>You are building or converting a venture and need operating architecture</li>
+              <li>You are deploying AI in regulated or sovereign environments and need defensible architecture</li>
+            </ul>
+          </div>
+
+          <div class="contact-direct">
+            <p class="contact-direct__label">Direct contact</p>
+            <a href="mailto:contact@koeoes.com" class="contact-direct__email">contact@koeoes.com</a>
+          </div>
+        </div>
+
+        <!-- Right: form -->
+        <div class="reveal reveal--delay-1">
+          <div class="contact-form">
+            <form novalidate>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+                <div class="form-group">
+                  <label class="form-label" for="name">Name</label>
+                  <input class="form-input" type="text" id="name" name="name" placeholder="Your name" autocomplete="name" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="org">Organisation</label>
+                  <input class="form-input" type="text" id="org" name="organisation" placeholder="Organisation name" autocomplete="organization">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input class="form-input" type="email" id="email" name="email" placeholder="your@organisation.com" autocomplete="email" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="context">What are you working on?</label>
+                <textarea class="form-textarea" id="context" name="context" placeholder="Brief description of the challenge or context — production conversion, AI exposure, sovereign deployment, venture architecture, or something else. A sentence or two is enough." rows="6" required></textarea>
+              </div>
+
+              <button type="submit" class="form-submit">Send message</button>
+
+            </form>
+          </div>
+
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: var(--space-sm); line-height: 1.6;">
+            We respond to every enquiry within one business day. If your situation is urgent, email directly at <a href="mailto:contact@koeoes.com" style="color: var(--accent-teal);">contact@koeoes.com</a>.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand-name">Koeos<span class="footer__brand-dot"></span></div>
+          <p class="footer__copy">&copy; 2026 Koeos. All rights reserved.</p>
+        </div>
+        <nav class="footer__nav" aria-label="Footer navigation">
+          <a href="index.html"        class="footer__nav-link">Home</a>
+          <a href="the-model.html"    class="footer__nav-link">The Model</a>
+          <a href="capabilities.html" class="footer__nav-link">Capabilities</a>
+          <a href="ventures.html"     class="footer__nav-link">Ventures</a>
+          <a href="sectors.html"      class="footer__nav-link">Sectors</a>
+          <a href="contact.html"      class="footer__nav-link">Contact</a>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        <span class="footer__built">Koeos — Luxembourg</span>
+        <div class="footer__social"><a href="#" class="footer__social-link">LinkedIn</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+
+  <style>
+    /* Contact page: two-col form grid collapses on small screens */
+    @media (max-width: 480px) {
+      .contact-form form > div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+
+</body>
+</html>
