@@ -1,1 +1,505 @@
-<h1>Down for maintenance</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Koeos — The operating architecture that converts AI investment into defensible value. Operating model design, production conversion systems, and sovereign deployment architecture.">
+  <title>Koeos — AI Commercialization Infrastructure</title>
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <style>
+    /* Page-specific overrides */
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================
+       NAVIGATION
+       ======================================================== -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        Koeos<span class="nav__logo-dot"></span>
+      </a>
+
+      <ul class="nav__links" role="list">
+        <li><a href="#home"         class="nav__link active">Home</a></li>
+        <li><a href="the-model.html"   class="nav__link">The Model</a></li>
+        <li><a href="capabilities.html" class="nav__link">Capabilities</a></li>
+        <li><a href="ventures.html"    class="nav__link">Ventures</a></li>
+        <li><a href="sectors.html"     class="nav__link">Sectors</a></li>
+        <li><a href="team.html"        class="nav__link">Team</a></li>
+        <li><a href="contact.html"     class="nav__link">Contact</a></li>
+      </ul>
+
+      <a href="contact.html" class="nav__cta">Book a session</a>
+
+      <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile navigation overlay -->
+  <div class="nav__mobile" role="dialog" aria-label="Mobile menu">
+    <button class="nav__mobile-close" aria-label="Close menu">&times;</button>
+    <a href="index.html"        class="nav__mobile-link">Home</a>
+    <a href="the-model.html"    class="nav__mobile-link">The Model</a>
+    <a href="capabilities.html" class="nav__mobile-link">Capabilities</a>
+    <a href="ventures.html"     class="nav__mobile-link">Ventures</a>
+    <a href="sectors.html"      class="nav__mobile-link">Sectors</a>
+    <a href="team.html"         class="nav__mobile-link">Team</a>
+    <a href="contact.html"      class="nav__mobile-link">Contact</a>
+    <a href="contact.html"      class="nav__mobile-cta">Book a session</a>
+  </div>
+
+
+  <!-- ========================================================
+       SECTION 1 — HERO
+       ======================================================== -->
+  <section id="home" class="hero">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero__bg"></div>
+    <div class="hero__vignette" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <p class="hero__eyebrow">
+        AI Commercialization Infrastructure
+        <span class="hero__eyebrow-line"></span>
+      </p>
+
+      <h1 class="hero__headline">
+        You are investing in AI.<br>
+        You are not yet getting<br>
+        proportional value from it.
+      </h1>
+
+      <p class="hero__subheadline">
+        The gap is almost never a technology problem — it is structural. We close it.
+      </p>
+
+      <div class="hero__ctas">
+        <a href="contact.html" class="btn btn--primary">Book a working session</a>
+        <a href="the-model.html" class="btn btn--ghost">
+          See how the model works <span class="btn__arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__scroll">
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       SECTION 2 — THE PROBLEM IN NUMBERS
+       ======================================================== -->
+  <section id="market-reality" class="stats">
+    <div class="container">
+
+      <div class="stats__header reveal">
+        <p class="section-label">The Market Reality</p>
+        <h2 class="stats__headline">AI investment is accelerating. Value creation is not.</h2>
+        <p class="stats__subheadline">The market does not have an AI capability problem. It has a conversion problem.</p>
+      </div>
+
+      <div class="stats__grid">
+
+        <div class="stat-block reveal">
+          <div class="stat-block__number">
+            <span data-count="660" data-prefix="$" data-suffix="B">$0B</span>
+          </div>
+          <div class="stat-block__accent"></div>
+          <p class="stat-block__label">combined AI CapEx announced by tech giants in a single quarter</p>
+        </div>
+
+        <div class="stat-block reveal reveal--delay-1">
+          <div class="stat-block__number">
+            <span data-count="74" data-suffix="%">0%</span>
+          </div>
+          <div class="stat-block__accent"></div>
+          <p class="stat-block__label">of companies report no tangible business value from AI investments</p>
+        </div>
+
+        <div class="stat-block reveal reveal--delay-2">
+          <div class="stat-block__number">
+            <span>1 in 5</span>
+          </div>
+          <div class="stat-block__accent"></div>
+          <p class="stat-block__label">AI projects in a typical organization actually reach production — the rest stall in testing, pilot, or internal use</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       SECTION 3 — WHAT WE DO (Category Definition)
+       ======================================================== -->
+  <section id="what-we-do" class="what-we-do">
+    <div class="container">
+      <div class="what-we-do__grid">
+
+        <!-- Left: copy -->
+        <div class="reveal">
+          <p class="section-label">What We Do</p>
+          <h2 class="what-we-do__headline">We build the layer between AI activity and measurable economic value.</h2>
+          <div class="what-we-do__body">
+            <p>Most organizations have bought the tools. Hired the people. Run the pilots. But when the board asks what AI has delivered, the answer is rarely satisfying.</p>
+            <p>The problem is almost never the technology. It is the operating model, governance, and commercial architecture that were never redesigned for AI.</p>
+            <p>AI Commercialization Infrastructure is the discipline of closing that gap.</p>
+          </div>
+        </div>
+
+        <!-- Right: Architecture diagram (inline SVG) -->
+        <div class="arch-diagram reveal reveal--delay-2">
+          <svg viewBox="0 0 440 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Connecting lines -->
+            <line class="arch-line arch-line-1" x1="220" y1="74" x2="220" y2="118" stroke="#1F8A8A" stroke-width="1.5"/>
+            <line class="arch-line arch-line-2" x1="220" y1="196" x2="130" y2="240" stroke="#1F8A8A" stroke-width="1.5"/>
+            <line class="arch-line arch-line-3" x1="220" y1="196" x2="310" y2="240" stroke="#1F8A8A" stroke-width="1.5"/>
+
+            <!-- Top box: Monetization Architecture -->
+            <g class="arch-box arch-box-1">
+              <rect x="110" y="16" width="220" height="58" fill="#161616" stroke="#164D4D" stroke-width="1"/>
+              <text x="220" y="40" fill="#F2F2F2" font-family="Inter, sans-serif" font-size="11" font-weight="600" text-anchor="middle" dy="0">Monetization</text>
+              <text x="220" y="57" fill="#F2F2F2" font-family="Inter, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Architecture</text>
+            </g>
+
+            <!-- Centre box: AI-Native Operating Model (highlighted) -->
+            <g class="arch-box arch-box-center">
+              <rect x="120" y="118" width="200" height="78" fill="#1C1C1C" stroke="#1F8A8A" stroke-width="1.5"/>
+              <!-- Teal glow effect via second rect -->
+              <rect x="120" y="118" width="200" height="78" fill="none" stroke="#28B5B5" stroke-width="0.5" opacity="0.4"/>
+              <text x="220" y="147" fill="#F2F2F2" font-family="Inter, sans-serif" font-size="11" font-weight="600" text-anchor="middle">AI-Native</text>
+              <text x="220" y="163" fill="#F2F2F2" font-family="Inter, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Operating Model</text>
+              <text x="220" y="181" fill="#1F8A8A" font-family="Inter, sans-serif" font-size="10" font-weight="400" text-anchor="middle">core system</text>
+            </g>
+
+            <!-- Bottom-left box: Production Conversion System -->
+            <g class="arch-box arch-box-3">
+              <rect x="16" y="240" width="190" height="72" fill="#161616" stroke="#164D4D" stroke-width="1"/>
+              <text x="111" y="266" fill="#F2F2F2" font-family="Inter, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Production</text>
+              <text x="111" y="282" fill="#F2F2F2" font-family="Inter, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Conversion System</text>
+              <text x="111" y="299" fill="#A0A0A0" font-family="Inter, sans-serif" font-size="9" font-weight="400" text-anchor="middle">pilot → production</text>
+            </g>
+
+            <!-- Bottom-right box: Sovereign Deployment Architecture -->
+            <g class="arch-box arch-box-4">
+              <rect x="234" y="240" width="190" height="72" fill="#161616" stroke="#164D4D" stroke-width="1"/>
+              <text x="329" y="266" fill="#F2F2F2" font-family="Inter, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Sovereign</text>
+              <text x="329" y="282" fill="#F2F2F2" font-family="Inter, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Deployment Arch.</text>
+              <text x="329" y="299" fill="#A0A0A0" font-family="Inter, sans-serif" font-size="9" font-weight="400" text-anchor="middle">trust + control</text>
+            </g>
+
+            <!-- Connection dots -->
+            <circle class="arch-dot arch-dot-1" cx="220" cy="118" r="3" fill="#1F8A8A"/>
+            <circle class="arch-dot arch-dot-2" cx="130" cy="240" r="3" fill="#1F8A8A"/>
+            <circle class="arch-dot arch-dot-3" cx="310" cy="240" r="3" fill="#1F8A8A"/>
+
+            <!-- Corner accent squares at top of centre box -->
+            <rect class="arch-dot" x="118" y="116" width="5" height="5" fill="#1F8A8A"/>
+            <rect class="arch-dot" x="317" y="116" width="5" height="5" fill="#1F8A8A"/>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       SECTION 4 — FOUR CAPABILITY PILLARS
+       ======================================================== -->
+  <section id="capabilities" class="capabilities">
+    <div class="container">
+
+      <div class="capabilities__header reveal">
+        <p class="section-label">The Architecture</p>
+        <h2 class="capabilities__headline">Four systems. One infrastructure.</h2>
+      </div>
+
+      <div class="capabilities__grid">
+
+        <article class="cap-card reveal">
+          <div class="cap-card__number">01</div>
+          <h3 class="cap-card__title">Commercialization Architecture</h3>
+          <p class="cap-card__desc">AI capability that generates no attributable revenue is just cost. We design the commercial model that changes that — pricing, monetization logic, and how value gets captured and measured.</p>
+          <a href="capabilities.html#commercialization" class="cap-card__link">Learn more →</a>
+        </article>
+
+        <article class="cap-card reveal reveal--delay-1">
+          <div class="cap-card__number">02</div>
+          <h3 class="cap-card__title">AI-Native Operating Model</h3>
+          <p class="cap-card__desc">Most organizations add AI on top of an operating model that was designed without it. That is why adoption stalls. We redesign the model so AI actually works inside the business — with clear ownership, accountability, and redesigned workflows.</p>
+          <a href="capabilities.html#operating-model" class="cap-card__link">Learn more →</a>
+        </article>
+
+        <article class="cap-card reveal reveal--delay-2">
+          <div class="cap-card__number">03</div>
+          <h3 class="cap-card__title">Production Conversion System</h3>
+          <p class="cap-card__desc">Most AI projects never leave the testing environment. They remain pilots, proofs of concept, or internal tools — never reaching the point where they generate real business value. We build the pipeline that closes that gap.</p>
+          <a href="capabilities.html#production" class="cap-card__link">Learn more →</a>
+        </article>
+
+        <article class="cap-card reveal reveal--delay-3">
+          <div class="cap-card__number">04</div>
+          <h3 class="cap-card__title">Sovereign Deployment Architecture</h3>
+          <p class="cap-card__desc">In regulated industries, government, and defence, deploying AI is not just a technology decision — it is a legal, governance, and sovereignty question. We design for that from day one, so deployment holds under scrutiny.</p>
+          <a href="capabilities.html#sovereign" class="cap-card__link">Learn more →</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       SECTION 5 — WHY FIRMS FAIL
+       ======================================================== -->
+  <section id="conversion" class="why-fail">
+    <div class="container">
+
+      <div class="why-fail__header reveal">
+        <p class="section-label">Why Conversion Stays Low</p>
+        <h2 class="why-fail__headline">AI failure is not hypothetical. It is already showing up in losses, liability, and stalled conversion.</h2>
+      </div>
+
+      <div class="fail-blocks">
+
+        <div class="fail-block reveal">
+          <p class="fail-block__label">The financial exposure is already real.</p>
+          <p class="fail-block__body"><strong>99%</strong> of organizations reported AI-related financial losses last year. The average is <strong>$4.4M</strong> annually — the investment goes in, and the returns do not come out.</p>
+        </div>
+
+        <div class="fail-block reveal reveal--delay-1">
+          <p class="fail-block__label">What gets reported internally understates the problem.</p>
+          <p class="fail-block__body">Most organizations measure AI investment at the portfolio level, not whether that activity is reaching real operations, real decisions, and commercial outcomes. The gap between what is reported and what is actually working is almost always larger than leadership believes.</p>
+        </div>
+
+        <div class="fail-block reveal reveal--delay-2">
+          <p class="fail-block__label">The way most businesses are run was not designed for AI.</p>
+          <p class="fail-block__body">AI has fundamentally changed what is cheap and what is scarce inside a business. But most organizations have not changed how they are structured, governed, or operated in response — and that gap does not close on its own.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       SECTION 6 — SIGNATURE FRAMEWORKS
+       ======================================================== -->
+  <section id="frameworks" class="frameworks">
+    <div class="container">
+
+      <div class="frameworks__header reveal">
+        <p class="section-label">How We Measure It</p>
+        <h2 class="frameworks__headline">Proprietary diagnostic and conversion systems.</h2>
+      </div>
+
+      <div class="frameworks__grid">
+
+        <!-- PCI Card -->
+        <article class="framework-card reveal">
+          <p class="framework-card__label">Production Conversion Index (PCI)</p>
+          <h3 class="framework-card__title">What percentage of your AI investment is actually generating value?</h3>
+          <p class="framework-card__desc">A single measure that shows what percentage of your AI investment is actually reaching production use and generating value. Most organizations score below 20% — which is why the stat in the section above is almost universal.</p>
+          <a href="the-model.html#frameworks" class="framework-card__link">How we measure it →</a>
+        </article>
+
+        <!-- AI Exposure Assessment -->
+        <article class="framework-card reveal reveal--delay-1">
+          <p class="framework-card__label">AI Exposure Assessment</p>
+          <h3 class="framework-card__title">Where is AI activity creating hidden financial risk?</h3>
+          <p class="framework-card__desc">A diagnostic that maps where AI activity is creating hidden financial risk — stranded spend, margin leakage, ungoverned decisions, and outputs that cannot be defended under scrutiny.</p>
+          <a href="the-model.html#frameworks" class="framework-card__link">How we measure it →</a>
+        </article>
+
+        <!-- Aegir -->
+        <article class="framework-card reveal reveal--delay-2">
+          <p class="framework-card__label">Aegir Production System</p>
+          <h3 class="framework-card__title">A structured pipeline from initiative to governed production.</h3>
+          <p class="framework-card__desc">A structured five-stage pipeline that moves AI from initiative to governed, measurable, revenue-bearing production — with defined gates and clear ownership at each transition.</p>
+          <a href="the-model.html#frameworks" class="framework-card__link">How we measure it →</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       SECTORS STRIP — compressed single row
+       ======================================================== -->
+  <section id="sectors" class="sectors-strip">
+    <div class="container">
+      <div class="sectors-strip__inner reveal">
+        <span class="sectors-strip__label">Where We Work</span>
+        <div class="sectors-strip__list">
+          <a href="sectors.html" class="sectors-strip__item">Defence &amp; Sovereign Systems</a>
+          <span class="sectors-strip__sep" aria-hidden="true">·</span>
+          <a href="sectors.html" class="sectors-strip__item">Government &amp; Public Sector</a>
+          <span class="sectors-strip__sep" aria-hidden="true">·</span>
+          <a href="sectors.html" class="sectors-strip__item">Regulated Enterprise</a>
+          <span class="sectors-strip__sep" aria-hidden="true">·</span>
+          <a href="sectors.html" class="sectors-strip__item">Professional Services</a>
+          <span class="sectors-strip__sep" aria-hidden="true">·</span>
+          <a href="sectors.html" class="sectors-strip__item">Critical Infrastructure</a>
+        </div>
+        <a href="sectors.html" class="sectors-strip__more">All sectors <span class="btn__arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       TEAM STRIP — compact principal-led block
+       ======================================================== -->
+  <section id="team" class="team-strip">
+    <div class="container">
+      <div class="team-strip__inner reveal">
+
+        <div class="team-strip__content">
+          <p class="section-label">Leadership</p>
+          <p class="team-strip__statement">Principal-led. Every engagement is designed and delivered by the team behind the architecture.</p>
+          <p class="team-strip__detail">Operating model design, production systems, and sovereign deployment — built by practitioners who have done it across enterprise, regulated, and defence contexts.</p>
+          <a href="team.html" class="team-strip__link">Meet the team <span class="btn__arrow">→</span></a>
+        </div>
+
+        <div class="team-strip__cta">
+          <a href="contact.html" class="btn btn--primary">Book a working session</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       SECTION 9 — ENGAGEMENT MODELS
+       ======================================================== -->
+  <section id="engagement" class="engagement">
+    <div class="container">
+
+      <div class="engagement__header reveal">
+        <p class="section-label">How We Engage</p>
+        <h2 class="engagement__headline">From diagnostic to embedded architecture.</h2>
+      </div>
+
+      <div class="engagement__flow">
+
+        <div class="engagement-step reveal">
+          <h3 class="engagement-step__title">Diagnostic Working Session</h3>
+          <p class="engagement-step__desc">A structured 1–2 day session that surfaces where production conversion is failing, where AI exposure is accumulating, and what the operating model needs to change. The entry point for most engagements.</p>
+          <span class="engagement-step__duration">1–2 days</span>
+        </div>
+
+        <div class="engagement-connector reveal reveal--delay-1" aria-hidden="true">→</div>
+
+        <div class="engagement-step reveal reveal--delay-1">
+          <h3 class="engagement-step__title">Operating Model Reset</h3>
+          <p class="engagement-step__desc">A 4–8 week engagement to redesign how your organization owns, governs, and generates value from AI — for companies where AI is deployed but not yet delivering the way it should.</p>
+          <span class="engagement-step__duration">4–8 weeks</span>
+        </div>
+
+        <div class="engagement-connector reveal reveal--delay-2" aria-hidden="true">→</div>
+
+        <div class="engagement-step reveal reveal--delay-2">
+          <h3 class="engagement-step__title">Commercialization Architecture Design</h3>
+          <p class="engagement-step__desc">Full architecture engagement that connects AI capability to commercial value — monetization design, conversion systems, production pipelines, and deployment architecture.</p>
+          <span class="engagement-step__duration">8–16 weeks</span>
+        </div>
+
+        <div class="engagement-connector reveal reveal--delay-3" aria-hidden="true">→</div>
+
+        <div class="engagement-step reveal reveal--delay-3">
+          <h3 class="engagement-step__title">Fractional Embedded Advisory</h3>
+          <p class="engagement-step__desc">Ongoing architecture leadership embedded in the operating rhythm — for organizations that need sustained methodology and accountability, not project-based consulting.</p>
+          <span class="engagement-step__duration">Ongoing</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       SECTION 10 — FINAL CTA
+       ======================================================== -->
+  <section id="contact-cta" class="final-cta">
+    <div class="container">
+      <div class="final-cta__content">
+
+        <h2 class="final-cta__headline reveal">
+          If your organization is investing in AI but cannot yet demonstrate proportional business value — the problem is almost never the technology.
+        </h2>
+        <span class="final-cta__accent-line reveal reveal--delay-1">It is operating architecture. And that is what we build.</span>
+
+        <a href="contact.html" class="btn btn--primary reveal reveal--delay-2">
+          Schedule a working session
+        </a>
+
+        <a href="mailto:contact@koeoes.com" class="final-cta__email reveal reveal--delay-2">
+          contact@koeoes.com
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       FOOTER
+       ======================================================== -->
+  <footer class="footer">
+    <div class="footer__inner">
+
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand-name">
+            Koeos<span class="footer__brand-dot"></span>
+          </div>
+          <p class="footer__copy">&copy; 2026 Koeos. All rights reserved.</p>
+        </div>
+
+        <nav class="footer__nav" aria-label="Footer navigation">
+          <a href="index.html"        class="footer__nav-link">Home</a>
+          <a href="the-model.html"    class="footer__nav-link">The Model</a>
+          <a href="capabilities.html" class="footer__nav-link">Capabilities</a>
+          <a href="ventures.html"     class="footer__nav-link">Ventures</a>
+          <a href="sectors.html"      class="footer__nav-link">Sectors</a>
+          <a href="contact.html"      class="footer__nav-link">Contact</a>
+        </nav>
+      </div>
+
+      <div class="footer__bottom">
+        <span class="footer__built">Koeos — Luxembourg</span>
+        <div class="footer__social">
+          <a href="#" class="footer__social-link">LinkedIn</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <script src="js/main.js"></script>
+</body>
+</html>
