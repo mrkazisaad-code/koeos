@@ -1,0 +1,266 @@
+---
+/**
+ * A8 Duration bars. Shared compressed (logarithmic) scale: pos(d) = ln(1 + d/7) / ln(1 + D/7),
+ * d in days, D = 540 (about 18 months, leaving room for the 12+ month tails).
+ */
+const D = 540;
+const pos = (d: number) => Math.log(1 + d / 7) / Math.log(1 + D / 7);
+const pct = (d: number) => `${(pos(d) * 100).toFixed(2)}%`;
+const ticks = [
+  { d: 7, long: '1 WK', short: '1W' },
+  { d: 30, long: '1 MO', short: '1M' },
+  { d: 182, long: '6 MO', short: '6M' },
+  { d: 365, long: '12 MO', short: '12M' },
+];
+type Row = { name: string; duration: string; min: number; max: number; tail?: boolean; get: string };
+const rows: Row[] = [
+  { name: 'Working session', duration: 'Half a day', min: 0.5, max: 0.5, get: 'The problem worth solving, and the first test to run' },
+  { name: 'Project-based', duration: '2–8 weeks', min: 14, max: 56, get: 'A tested offer with a price, or a costed 100-day plan' },
+  { name: 'AI build sprint', duration: '4–12 weeks', min: 28, max: 84, get: 'A working agent or product in production, measured by the work it completes' },
+  { name: 'Retainer', duration: '6–12 months', min: 182, max: 365, get: 'Ongoing oversight and decisions while your team executes' },
+  { name: 'Fractional C-level and board', duration: 'Ongoing', min: 182, max: 182, tail: true, get: 'Senior ownership of product, commercialisation or Europe, part time' },
+  { name: 'Embedded operating partner', duration: '12 months and more, full time', min: 365, max: 365, tail: true, get: 'One accountable person running the build inside your team' },
+];
+---
+<section class="section engage" id="engage" aria-labelledby="engage-title">
+  <div class="container">
+    <p class="eyebrow" data-reveal>09 — <span class="eyebrow__rest">ENGAGEMENT</span></p>
+    <div class="section-head engage__head">
+      <h2 class="h2" id="engage-title" data-reveal style="--i:1">Six ways to work together. Each ends in something you can use.</h2>
+      <p class="lead" data-reveal style="--i:2">Where the result can be measured, we will price the engagement on it.</p>
+    </div>
+
+    <div class="engage__table" data-scene="engage" style={`--t1:${pct(7)};--t2:${pct(30)};--t3:${pct(182)};--t4:${pct(365)}`}>
+      <div class="eng-axis" aria-hidden="true">
+        <div class="eng-axis__scale">
+          {ticks.map((t) => (
+            <span class="eng-axis__tick" style={`left:${pct(t.d)}`}><span class="eng-axis__long">{t.long}</span><span class="eng-axis__short">{t.short}</span></span>
+          ))}
+        </div>
+      </div>
+      <ul class="eng-rows">
+        {rows.map((r, i) => (
+          <li class="eng-row" style={`--i:${i}`}>
+            <h3 class="eng-row__name">{r.name}</h3>
+            <p class="eng-row__dur">{r.duration}</p>
+            <div class={`eng-bar${r.tail ? ' eng-bar--tail' : ''}`} aria-hidden="true" style={`--min:${pct(r.min)};--max:${r.tail ? '100%' : pct(r.max)};--end:${pct(r.max)};--ratio:${r.tail ? '100%' : ((pos(r.min) / pos(r.max)) * 100).toFixed(1) + '%'}`}>
+              <span class="eng-bar__fill"></span>
+              <span class="eng-bar__dot"></span>
+            </div>
+            <p class="eng-row__get"><span class="eng-row__get-label">You get</span> {r.get}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .engage__head {
+    max-width: 900px;
+  }
+  .engage__table {
+    margin-top: var(--s-8);
+  }
+  .eng-axis {
+    display: grid;
+    padding-bottom: var(--s-3);
+  }
+  .eng-axis__scale {
+    position: relative;
+    height: 16px;
+    margin-right: 8px;
+  }
+  .eng-axis__tick {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text-500);
+    white-space: nowrap;
+  }
+  .eng-axis__long {
+    display: none;
+  }
+  .eng-rows {
+    border-bottom: 1px solid var(--line-700);
+  }
+  .eng-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'name dur'
+      'bar bar'
+      'get get';
+    column-gap: var(--s-4);
+    row-gap: var(--s-3);
+    padding-block: var(--s-5);
+    border-top: 1px solid var(--line-700);
+  }
+  .eng-row__name {
+    grid-area: name;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(19px, 17.67px + 0.37vw, 23px);
+    line-height: 1.25;
+    color: var(--text-100);
+  }
+  .eng-row__dur {
+    grid-area: dur;
+    justify-self: end;
+    text-align: right;
+    max-width: 18ch;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--text-300);
+    padding-top: 3px;
+  }
+  .eng-row__get {
+    grid-area: get;
+    color: var(--text-100);
+    line-height: 1.5;
+  }
+  .eng-row__get-label {
+    display: block;
+    margin-bottom: var(--s-1);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--copper-400);
+  }
+
+  /* Bar track with faint scale marks */
+  .eng-bar {
+    grid-area: bar;
+    position: relative;
+    height: 14px;
+    margin-right: 8px;
+    background-image:
+      linear-gradient(var(--line-700), var(--line-700)),
+      linear-gradient(var(--line-700), var(--line-700)),
+      linear-gradient(var(--line-700), var(--line-700)),
+      linear-gradient(var(--line-700), var(--line-700)),
+      linear-gradient(var(--line-700), var(--line-700));
+    background-size:
+      100% 1px,
+      1px 100%,
+      1px 100%,
+      1px 100%,
+      1px 100%;
+    background-position:
+      0 50%,
+      var(--t1) 0,
+      var(--t2) 0,
+      var(--t3) 0,
+      var(--t4) 0;
+    background-repeat: no-repeat;
+  }
+  .eng-bar__fill {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    height: 6px;
+    width: max(var(--max), 10px);
+    border-radius: 1px;
+    /* Solid to the shortest duration, lighter across the range */
+    background: linear-gradient(to right, var(--teal-500) 0 var(--ratio), rgb(46 143 135 / 0.45) 0);
+    transform-origin: left;
+  }
+  .eng-bar--tail .eng-bar__fill {
+    background: linear-gradient(to right, var(--teal-500) 0 var(--min), rgb(46 143 135 / 0) 100%);
+  }
+  .eng-bar__dot {
+    position: absolute;
+    top: 3px;
+    left: max(var(--end), 10px);
+    width: 8px;
+    height: 8px;
+    margin-left: -4px;
+    border-radius: 50%;
+    background: var(--copper-400);
+  }
+
+  @media (min-width: 768px) {
+    .eng-axis {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) minmax(0, 3fr);
+      column-gap: var(--s-5);
+    }
+    .eng-axis__scale {
+      grid-column: 3;
+    }
+    .eng-row {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) minmax(0, 3fr);
+      grid-template-areas:
+        'name dur bar'
+        'get get get';
+      column-gap: var(--s-5);
+      align-items: start;
+    }
+    .eng-row__dur {
+      justify-self: start;
+      text-align: left;
+    }
+    .eng-bar {
+      margin-top: 6px;
+    }
+    .eng-row__get {
+      padding-top: 2px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .eng-axis,
+    .eng-row {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) minmax(0, 4fr) minmax(0, 4fr);
+      column-gap: var(--gutter);
+    }
+    .eng-row {
+      grid-template-areas: 'name dur bar get';
+      padding-block: var(--s-6);
+    }
+    .eng-axis__long {
+      display: inline;
+    }
+    .eng-axis__short {
+      display: none;
+    }
+    .eng-row__get-label {
+      display: block;
+    }
+  }
+
+  /* Motion: bars grow from the left (staggered), then dot and "You get" appear */
+  .js.motion [data-scene='engage'] .eng-bar__fill {
+    transform: scaleX(0);
+    transition: transform var(--dur-slow) var(--ease-out);
+    transition-delay: calc(var(--i) * var(--stagger));
+  }
+  .js.motion [data-scene='engage'] .eng-bar__dot {
+    opacity: 0;
+    transform: scale(0.4);
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+    transition-delay: calc(var(--dur-slow) + var(--i) * var(--stagger));
+  }
+  .js.motion [data-scene='engage'] .eng-row__get {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+    transition-delay: calc(var(--dur-slow) + var(--i) * var(--stagger));
+  }
+  .js.motion [data-scene='engage'].is-play .eng-bar__fill,
+  .js.motion [data-scene='engage'].is-play .eng-bar__dot,
+  .js.motion [data-scene='engage'].is-play .eng-row__get {
+    opacity: 1;
+    transform: none;
+  }
+</style>

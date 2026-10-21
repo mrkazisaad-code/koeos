@@ -1,0 +1,228 @@
+---
+import SourceMarker from '../SourceMarker.astro';
+// A3 seat grid: 12 seats, 6 x 2
+const seats = Array.from({ length: 12 }, (_, i) => ({ x: (i % 6) * 46 + 4, y: Math.floor(i / 6) * 44 + 34, i }));
+---
+<section class="section section--alt" id="why" aria-labelledby="why-title">
+  <div class="container">
+    <p class="eyebrow" data-reveal>02 — <span class="eyebrow__rest">WHY WE EXIST</span></p>
+    <div class="why__head section-head">
+      <h2 class="h2" id="why-title" data-reveal style="--i:1">Most technology stalls between a working product and a paying customer.</h2>
+      <p class="lead" data-reveal style="--i:2">The gap is rarely the technology. It is the buyer, the offer, the price and the way the work gets delivered. We close that gap, and we measure it in revenue.</p>
+    </div>
+
+    <div class="why__cards">
+      <article class="why-card" data-reveal style="--i:0" data-counter-group>
+        <p class="why-card__stat">
+          <span class="big-number"><span class="sr-only">20%</span><span aria-hidden="true" data-count="20" data-suffix="%">20%</span></span><SourceMarker n={1} />
+        </p>
+        <div class="meter" aria-hidden="true"><span style="--p:0.2" data-meter></span></div>
+        <p class="body">of EU enterprises used AI in 2025. Among large firms it was 55%; among small firms, 17%. Adoption is early and uneven.</p>
+      </article>
+
+      <article class="why-card" data-reveal style="--i:1" data-counter-group>
+        <p class="why-card__stat">
+          <span class="big-number"><span class="sr-only">72%</span><span aria-hidden="true" data-count="72" data-suffix="%">72%</span></span><SourceMarker n={2} />
+        </p>
+        <div class="meter" aria-hidden="true"><span style="--p:0.72" data-meter></span></div>
+        <p class="body">of large European organisations work with startups, yet many proofs of concept never reach full deployment.</p>
+      </article>
+
+      <article class="why-card why-card--feature" data-reveal style="--i:2">
+        <h3 class="h3">Buyers now pay for results.<SourceMarker n={3} /></h3>
+        <p class="body">A claim settled, a file cleared, a tender priced. AI makes delivering results economic at scale, if the operating model is built for it. We build those offers for clients, and we help firms build the capability to sell them.</p>
+
+        <svg class="licence" viewBox="0 0 280 150" role="img" aria-label="Pricing moves from a licence charged per seat per month to a count of outcomes delivered. Illustrative." data-licence>
+          <g class="licence__seats">
+            <text x="0" y="12" class="licence__label">LICENCE · € / SEAT / MONTH</text>
+            {seats.map((s) => (
+              <g class="licence__seat" style={`--i:${s.i};transform-origin:${s.x + 13}px ${s.y + 14}px;--dx:${140 - (s.x + 13)}px;--dy:${82 - (s.y + 14)}px`}>
+                <rect x={s.x + 4} y={s.y} width="18" height="12" rx="2" />
+                <rect x={s.x} y={s.y + 15} width="26" height="9" rx="2" />
+                <path d={`M${s.x + 4} ${s.y + 24}v5M${s.x + 22} ${s.y + 24}v5`} />
+              </g>
+            ))}
+          </g>
+          <g class="licence__outcome">
+            <text x="0" y="12" class="licence__label">OUTCOMES DELIVERED</text>
+            <text x="0" y="82" class="licence__number" data-licence-count>1,284</text>
+            <line x1="0" y1="102" x2="280" y2="102" class="licence__rule" />
+            <text x="0" y="128" class="licence__caption">Illustrative</text>
+          </g>
+        </svg>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .why__head {
+    max-width: 860px;
+  }
+  .why__cards {
+    display: grid;
+    gap: var(--gutter);
+    margin-top: var(--s-8);
+  }
+  .why-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    padding: var(--s-5);
+    border: 1px solid var(--line-700);
+    border-radius: 4px;
+    background: transparent;
+  }
+  .why-card--feature {
+    background: var(--ink-800);
+  }
+  .why-card--feature::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    top: -1px;
+    height: 2px;
+    background: var(--copper-400);
+    border-radius: 4px 4px 0 0;
+  }
+  .why-card:not(.why-card--feature) > .body {
+    margin-top: auto;
+    padding-top: var(--s-6);
+  }
+  .why-card__stat {
+    display: flex;
+    align-items: flex-start;
+  }
+  .why-card__stat .src {
+    vertical-align: top;
+    top: 0;
+    margin-left: 6px;
+  }
+  .why-card .h3 .src {
+    margin-left: 4px;
+  }
+  .why-card .body {
+    color: var(--text-300);
+  }
+  .meter {
+    height: 2px;
+    background: var(--line-700);
+  }
+  .meter span {
+    display: block;
+    height: 100%;
+    width: calc(var(--p) * 100%);
+    background: var(--teal-500);
+    transform-origin: left;
+  }
+  .js.motion [data-counter-group]:not(.is-counted) .meter span {
+    transform: scaleX(0);
+  }
+  .js.motion [data-counter-group] .meter span {
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+  @media (min-width: 768px) {
+    .why-card {
+      padding: var(--s-6);
+    }
+    .why__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .why-card--feature {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--s-6);
+      align-content: start;
+    }
+    .why-card--feature .h3,
+    .why-card--feature .body {
+      grid-column: 1;
+    }
+    .why-card--feature .licence {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: center;
+    }
+  }
+  @media (min-width: 1024px) {
+    .why__cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .why-card--feature {
+      grid-column: auto;
+      display: flex;
+    }
+  }
+
+  /* A3 Licence to outcome */
+  .licence {
+    width: 100%;
+    max-width: 340px;
+    height: auto;
+    margin-top: auto;
+    padding-top: var(--s-4);
+    overflow: visible;
+  }
+  .licence__label {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    fill: var(--text-500);
+  }
+  .licence__seat {
+    fill: none;
+    stroke: var(--text-500);
+    stroke-width: 1.2;
+  }
+  .licence__number {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 48px;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    fill: var(--copper-400);
+  }
+  .licence__rule {
+    stroke: var(--line-700);
+  }
+  .licence__caption {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    fill: var(--text-500);
+  }
+  /* HTML end state = outcome. Seats only exist as the starting state of the animation. */
+  .licence__seats {
+    display: none;
+  }
+  .js.motion .licence__seats {
+    display: inline;
+  }
+  .js.motion .licence__seat {
+    transition:
+      opacity 300ms var(--ease-in-out),
+      transform 300ms var(--ease-in-out);
+    transition-delay: calc(var(--i) * 12ms);
+  }
+  .js.motion .licence:not(.is-seats) .licence__seat {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(0.4);
+  }
+  .js.motion .licence:not(.is-seats) .licence__seats > text {
+    opacity: 0;
+    transition: opacity 300ms var(--ease-in-out);
+  }
+  .js.motion .licence__outcome {
+    transition:
+      opacity var(--dur-base) var(--ease-out) 320ms,
+      transform var(--dur-base) var(--ease-out) 320ms;
+  }
+  .js.motion .licence.is-seats .licence__outcome {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: none;
+  }
+</style>

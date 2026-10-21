@@ -1,0 +1,102 @@
+---
+const sectors = [
+  { name: 'Defence and dual-use', tags: ['Sovereignty', 'Procurement', 'Export control'], outcome: 'Decision support delivered as a managed capability' },
+  { name: 'Insurance', tags: ['Claims', 'Underwriting', 'DORA'], outcome: 'Claims handled, priced per case' },
+  { name: 'Financial services', tags: ['KYC', 'AML', 'DORA'], outcome: 'Onboarding files cleared, priced per file' },
+  { name: 'Healthcare', tags: ['Clinical documentation', 'Data protection', 'Medical devices'], outcome: 'Documentation hours returned to clinicians' },
+  { name: 'Industrial and manufacturing', tags: ['Quality', 'Line monitoring', 'AI Act'], outcome: 'Defects caught per production line' },
+  { name: 'Agri-tech', tags: ['Greenhouse', 'Yield', 'Inputs'], outcome: 'Harvest and input decisions, priced per hectare' },
+  { name: 'Logistics and procurement', tags: ['Tendering', 'Freight', 'Supplier data'], outcome: 'Tenders priced in days' },
+  { name: 'Professional services', tags: ['Audit', 'Compliance', 'Advisory'], outcome: 'Assessments priced per asset' },
+];
+---
+<section class="section section--alt where" id="where" aria-labelledby="where-title">
+  <div class="container">
+    <p class="eyebrow" data-reveal>06 — <span class="eyebrow__rest">WHERE WE WORK</span></p>
+    <div class="section-head where__head">
+      <h2 class="h2" id="where-title" data-reveal style="--i:1">Regulated, industrial and service sectors, where results can be priced.</h2>
+      <p class="lead" data-reveal style="--i:2">Each card shows the kind of outcome a firm in that sector can buy or sell. These are illustrations of the model, not client results.</p>
+    </div>
+    <ul class="where__grid">
+      {sectors.map((s, i) => (
+        <li class="sector" data-reveal style={`--i:${i % 4}`} tabindex="0" aria-labelledby={`sector-${i}`}>
+          <h3 class="h3 sector__name" id={`sector-${i}`}>{s.name}</h3>
+          <ul class="tags" aria-label="Constraints">
+            {s.tags.map((t) => <li class="tag">{t}</li>)}
+          </ul>
+          <p class="sector__outcome"><span>{s.outcome}</span></p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style is:global>
+  .where__head {
+    max-width: 900px;
+  }
+  .where__grid {
+    display: grid;
+    gap: var(--gutter);
+    margin-top: var(--s-8);
+  }
+  .sector {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    padding: var(--s-5);
+    background: var(--ink-800);
+    border: 1px solid var(--line-700);
+    border-radius: 4px;
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .sector:hover,
+  .sector:focus-visible {
+    border-color: var(--teal-500);
+  }
+  .sector__outcome {
+    margin-top: auto;
+    padding-top: var(--s-4);
+    color: var(--text-300);
+    font-size: var(--fs-body);
+    line-height: 1.45;
+    transition: color var(--dur-base) var(--ease-out);
+  }
+  .sector__outcome span {
+    background-image: linear-gradient(var(--copper-400), var(--copper-400));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 2px;
+    padding-bottom: 4px;
+    transition: background-size var(--dur-base) var(--ease-out);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .sector:hover .sector__outcome,
+  .sector:focus-visible .sector__outcome {
+    color: var(--text-100);
+  }
+  .sector:hover .sector__outcome span,
+  .sector:focus-visible .sector__outcome span {
+    background-size: 100% 2px;
+  }
+  @media (hover: none) {
+    .sector__outcome {
+      color: var(--text-100);
+    }
+  }
+  @media (min-width: 768px) {
+    .where__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .sector {
+      padding: var(--s-6) var(--s-5);
+      min-height: 280px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .where__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

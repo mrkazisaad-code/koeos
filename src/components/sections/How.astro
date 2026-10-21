@@ -1,0 +1,321 @@
+---
+const steps = [
+  { n: 1, name: 'Choose', text: 'Pick the problem that deserves capital and attention, against the alternatives and against where the market is spending.' },
+  { n: 2, name: 'Test', text: 'Run the cheapest test that could prove us wrong. Fail here, early and cheaply.' },
+  { n: 3, name: 'Build', text: 'Sell the result first, then build only what buyers showed they will pay for.' },
+  { n: 4, name: 'Scale', text: 'Put more capital and customers where the numbers hold. Scale is measured from the first test: cost to serve, time to deliver, work done without the founders, price accepted.' },
+];
+// Loop geometry (viewBox units). Rounded square from 40 to 220, corner radius 36.
+// Nodes sit at the midpoints of each side: top, right, bottom, left (clockwise).
+const nodes = [
+  { x: 130, y: 40, lx: 130, ly: 66, anchor: 'middle', tx: 130, ty: 84, tanchor: 'middle' },
+  { x: 220, y: 130, lx: 204, ly: 126, anchor: 'end', tx: 204, ty: 144, tanchor: 'end' },
+  { x: 130, y: 220, lx: 130, ly: 202, anchor: 'middle', tx: 130, ty: 184, tanchor: 'middle' },
+  { x: 40, y: 130, lx: 56, ly: 126, anchor: 'start', tx: 56, ty: 144, tanchor: 'start' },
+];
+const loopD = 'M130 40H184A36 36 0 0 1 220 76V184A36 36 0 0 1 184 220H76A36 36 0 0 1 40 184V76A36 36 0 0 1 76 40Z';
+---
+<section class="section section--alt bg-grid how" id="how" aria-labelledby="how-title">
+  <div class="container">
+    <p class="eyebrow" data-reveal>04 — <span class="eyebrow__rest">HOW WE WORK</span></p>
+    <div class="section-head how__head">
+      <h2 class="h2" id="how-title" data-reveal style="--i:1">Choose. Test. Build. Scale. Then decide again.</h2>
+      <p class="lead" data-reveal style="--i:2">A short loop. Each pass ends in a decision to proceed, reshape or stop, and money follows the evidence.</p>
+    </div>
+
+    <div class="how__body">
+      <div class="how__loop" data-loop-wrap>
+        <svg class="loop" viewBox="0 -30 260 280" role="img" aria-label="A loop of four steps: choose, test, build, scale; each step ends in a decision to proceed, reshape or stop. After scale, the work leaves the loop and a new loop begins at choose." data-loop>
+          <path class="loop__path" d={loopD} data-loop-path />
+          <path class="loop__tangent" d="M40 76V-8" pathLength="1" data-loop-tangent />
+          <path class="loop__tip" d="M34 0l6 -10 6 10" />
+          <text class="loop__tangent-label" x="52" y="-14">SCALE</text>
+          {nodes.map((n, i) => (
+            <g class="loop__node" data-loop-node={i}>
+              <circle cx={n.x} cy={n.y} r="9" />
+              <text x={n.lx} y={n.ly} text-anchor={n.anchor} class="loop__label">{`${i + 1} ${steps[i].name.toUpperCase()}`}</text>
+              <text x={n.tx} y={n.ty} text-anchor={n.tanchor} class="loop__decision">PROCEED / RESHAPE / STOP</text>
+            </g>
+          ))}
+          <circle class="loop__ghost" r="5" cx="130" cy="40" data-loop-ghost />
+          <circle class="loop__marker" r="6" cx="130" cy="40" data-loop-marker />
+        </svg>
+        <ol class="how__steps">
+          {steps.map((s) => (
+            <li class={`how-step how-step--${s.n}`} data-reveal style={`--i:${s.n - 1}`}>
+              <h3 class="how-step__title"><span class="how-step__n" aria-hidden="true">{s.n}</span> {s.name}</h3>
+              <p class="body">{s.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <aside class="how__panel" aria-labelledby="holds-title" data-reveal>
+        <h3 class="h3" id="holds-title">What holds it together</h3>
+        <ul class="how__panel-list">
+          <li><strong>One view across everything.</strong> Finance, people, legal and progress sit in one governance layer, so nothing runs in a silo and the money stays visible. Where finance needs a specialist, the client’s controller owns the books.</li>
+          <li><strong>A control layer for AI.</strong> Work moves from first initiative to governed production in stages, and each AI output is checked before it reaches a customer.</li>
+          <li><strong>The right partners.</strong> Corporates, public buyers, integrators, research centres and selected technology partners shorten the route to revenue.</li>
+        </ul>
+      </aside>
+    </div>
+
+    <p class="how__judgement" data-reveal>Sometimes the right answer is no. Model first, tools second.</p>
+  </div>
+</section>
+
+<style is:global>
+  .how__body {
+    display: grid;
+    gap: var(--s-8);
+    margin-top: var(--s-8);
+  }
+  .how__loop {
+    display: grid;
+    gap: var(--s-6);
+  }
+  .loop {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    justify-self: center;
+    overflow: visible;
+  }
+  .loop__path {
+    fill: none;
+    stroke: var(--teal-500);
+    stroke-width: 2;
+  }
+  .loop__tangent {
+    fill: none;
+    stroke: var(--copper-400);
+    stroke-width: 2;
+  }
+  .loop__tip {
+    fill: none;
+    stroke: var(--copper-400);
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .loop__tangent-label {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    fill: var(--copper-400);
+  }
+  .loop__node circle {
+    fill: var(--teal-500);
+    stroke: var(--teal-500);
+    stroke-width: 2;
+    transition: fill var(--dur-base) var(--ease-out);
+  }
+  .loop__label {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    fill: var(--text-100);
+    transition: fill var(--dur-base) var(--ease-out);
+  }
+  .loop__decision {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    fill: var(--teal-300);
+    opacity: 0;
+  }
+  .loop__marker,
+  .loop__ghost {
+    display: none;
+  }
+  .loop__marker {
+    fill: var(--copper-400);
+  }
+  .loop__ghost {
+    fill: var(--copper-400);
+  }
+  /* Motion: nodes start unlit; the marker lights them as the reader scrolls */
+  .js.motion .loop__node:not(.is-lit) circle {
+    fill: var(--ink-800);
+  }
+  .js.motion .loop__node:not(.is-lit) .loop__label {
+    fill: var(--text-500);
+  }
+  .js.motion .loop__node.is-flash .loop__decision {
+    animation: decision 600ms var(--ease-in-out);
+  }
+  @keyframes decision {
+    0% {
+      opacity: 0;
+    }
+    25%,
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .js.motion .loop.is-active .loop__marker {
+    display: inline;
+  }
+  .js.motion .loop.is-ghost .loop__ghost {
+    display: inline;
+  }
+  .js.motion .loop__tangent {
+    stroke-dasharray: 1;
+    stroke-dashoffset: var(--tan, 1);
+  }
+  .js.motion .loop:not(.is-exited) .loop__tip,
+  .js.motion .loop:not(.is-exited) .loop__tangent-label {
+    opacity: 0;
+  }
+  .loop__tip,
+  .loop__tangent-label {
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+
+  .how__steps {
+    display: grid;
+    gap: var(--s-5);
+  }
+  .how-step {
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--line-700);
+  }
+  .how-step__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--fs-h3);
+    line-height: 1.2;
+    color: var(--text-100);
+    margin-bottom: var(--s-2);
+  }
+  .how-step__n {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--teal-300);
+    vertical-align: 0.3em;
+    margin-right: var(--s-1);
+  }
+  .how__panel {
+    align-self: start;
+    background: var(--ink-800);
+    border: 1px solid var(--line-700);
+    border-radius: 4px;
+    padding: var(--s-5);
+  }
+  .how__panel-list {
+    display: grid;
+    gap: var(--s-5);
+    margin-top: var(--s-5);
+  }
+  .how__panel-list li {
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--line-700);
+  }
+  .how__panel-list strong {
+    color: var(--text-100);
+    font-weight: 600;
+  }
+  .how__judgement {
+    margin-top: var(--s-8);
+    padding-top: var(--s-6);
+    border-top: 1px solid var(--line-700);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(22px, 19.33px + 0.741vw, 28px);
+    line-height: 1.25;
+    color: var(--text-100);
+    text-wrap: balance;
+  }
+
+  @media (min-width: 768px) {
+    .how__panel {
+      padding: var(--s-6);
+    }
+    /* Steps placed around the loop at its four quarter points */
+    .how__loop {
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 300px) minmax(0, 1fr);
+      grid-template-areas:
+        '. s1 .'
+        's4 loop s2'
+        '. s3 .';
+      column-gap: var(--s-6);
+      row-gap: var(--s-5);
+      align-items: center;
+    }
+    .how__steps {
+      display: contents;
+    }
+    .loop {
+      grid-area: loop;
+      max-width: none;
+    }
+    .how-step {
+      border-top: 0;
+      padding-top: 0;
+    }
+    .how-step--1 {
+      grid-area: s1;
+      text-align: center;
+      align-self: end;
+    }
+    .how-step--2 {
+      grid-area: s2;
+    }
+    .how-step--3 {
+      grid-area: s3;
+      text-align: center;
+      align-self: start;
+    }
+    .how-step--4 {
+      grid-area: s4;
+      text-align: right;
+    }
+    .how-step--1,
+    .how-step--3 {
+      width: calc(100% + 2 * var(--s-6));
+      margin-inline: calc(-1 * var(--s-6));
+    }
+    .how-step--1 .body,
+    .how-step--3 .body {
+      max-width: 40ch;
+      margin-inline: auto;
+    }
+  }
+  @media (min-width: 1280px) {
+    .how__body {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+    .how__loop {
+      grid-column: 1 / span 7;
+      grid-template-columns: minmax(0, 1fr) 260px minmax(0, 1fr);
+      column-gap: var(--s-5);
+    }
+    .how-step--1,
+    .how-step--3 {
+      width: calc(100% + 2 * var(--s-5));
+      margin-inline: calc(-1 * var(--s-5));
+    }
+    .how__panel {
+      grid-column: 8 / span 5;
+      margin-left: var(--s-6);
+    }
+  }
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .how__panel .how__panel-list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--gutter);
+    }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .how__panel .how__panel-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+import { CONTENT_FLAGS } from '../../config/site';
+const counters = [
+  { value: 20, suffix: '+', label: 'years building and running businesses' },
+  { value: 5, suffix: '', label: 'companies founded' },
+  { value: 2, suffix: '', label: 'exits' },
+  { value: 9, suffix: '', label: 'products shipped' },
+  { value: 180, suffix: '', label: 'people in the largest team built' },
+];
+const experience = [
+  {
+    title: 'Logistics procurement software',
+    // Acquisition clause confirmed by the owner (CONTENT_FLAGS.ACQUISITION_WORDING_CONFIRMED).
+    text: CONTENT_FLAGS.ACQUISITION_WORDING_CONFIRMED
+      ? 'Led product strategy and the product organisation through the company’s acquisition, including its first AI procurement product.'
+      : 'Led product strategy and the product organisation, including its first AI procurement product.',
+  },
+  {
+    title: 'A major professional services firm in Luxembourg',
+    text: 'Led service-delivery transformation and a GenAI team, shaped a firm-wide AI operating model, and led the team behind an approved internal AI investment case.',
+  },
+  { title: 'Cloud and digital services', text: 'Ran product and innovation, turning services into products customers could buy.' },
+  { title: 'Business process outsourcing', text: 'Founded the business and grew it to about 180 people.' },
+];
+---
+<section class="section section--alt record" id="record" aria-labelledby="record-title">
+  <div class="container">
+    <p class="eyebrow" data-reveal>10 — <span class="eyebrow__rest">TRACK RECORD</span></p>
+    <h2 class="h2" id="record-title" data-reveal style="--i:1">We have built, run and sold companies.</h2>
+
+    <ul class="record__counters" data-counter-group>
+      {counters.map((c, i) => (
+        <li class="counter" style={`--i:${i}`}>
+          <span class="big-number counter__num"><span class="sr-only">{c.value}{c.suffix}</span><span aria-hidden="true" data-count={c.value} data-suffix={c.suffix}>{c.value}{c.suffix}</span></span>
+          <span class="counter__rule" aria-hidden="true"></span>
+          <span class="counter__label">{c.label}</span>
+        </li>
+      ))}
+    </ul>
+
+    <ul class="record__cards">
+      {experience.map((e, i) => (
+        <li class="card record-card" data-reveal style={`--i:${i}`}>
+          <h3 class="h3">{e.title}</h3>
+          <p class="body">{e.text}</p>
+        </li>
+      ))}
+    </ul>
+
+    <p class="caption record__note" data-reveal>Client, employer and acquirer names are withheld.</p>
+  </div>
+</section>
+
+<style is:global>
+  .record__counters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-7) var(--gutter);
+    margin-top: var(--s-8);
+  }
+  .counter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+  .counter:last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - var(--gutter) / 2);
+  }
+  .counter__num {
+    min-width: 3ch;
+  }
+  .counter__rule {
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: var(--copper-400);
+    transform-origin: left;
+  }
+  .counter__label {
+    color: var(--text-300);
+    font-size: 15px;
+    line-height: 1.45;
+    max-width: 22ch;
+  }
+  .js.motion .record__counters .counter__rule {
+    transform: scaleX(0);
+    transition: transform var(--dur-slow) var(--ease-in-out);
+    transition-delay: calc(var(--i) * var(--stagger));
+  }
+  .js.motion .record__counters.is-counted .counter__rule {
+    transform: none;
+  }
+  .record__cards {
+    display: grid;
+    gap: var(--gutter);
+    margin-top: var(--s-9);
+  }
+  .record-card {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+  }
+  .record__note {
+    margin-top: var(--s-6);
+  }
+  @media (min-width: 768px) {
+    .record__counters {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .counter:last-child {
+      grid-column: auto;
+      justify-self: stretch;
+      width: auto;
+    }
+    .record__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .record__cards {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>
