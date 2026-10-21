@@ -1,0 +1,78 @@
+---
+const clients = [
+  { name: 'Investors and venture builders entering Europe', line: 'Your portfolio selling to European customers, run by one accountable team with the money in view.' },
+  { name: 'Groups opening a European unit', line: 'A base, a team, partners and first revenue, for groups from Türkiye, the Gulf, South Asia and beyond.' },
+  { name: 'Large enterprises in regulated sectors', line: 'AI programmes that reach production and pay back, in defence, insurance, healthcare and finance.' },
+  { name: 'Professional-services firms', line: 'Expertise turned into services that are priced on results, repeatable and partly delivered by AI.' },
+  { name: 'Founders and research teams', line: 'A buyer, an offer, a price and a first customer for technology that already works.' },
+];
+---
+<section class="section section--alt who" id="who" aria-labelledby="who-title">
+  <div class="container">
+    <p class="eyebrow" data-reveal>08 — <span class="eyebrow__rest">WHO WE WORK WITH</span></p>
+    <div class="grid-12 who__body">
+      <h2 class="h2 who__title" id="who-title" data-reveal style="--i:1">Five kinds of client, one question: how does this start earning?</h2>
+      <ul class="who__rows">
+        {clients.map((c, i) => (
+          <li class="who-row" data-reveal style={`--i:${i}`}>
+            <h3 class="who-row__name">{c.name}</h3>
+            <p class="who-row__line">{c.line}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .who__body {
+    row-gap: var(--s-7);
+  }
+  .who__rows {
+    border-bottom: 1px solid var(--line-700);
+  }
+  .who-row {
+    position: relative;
+    padding: var(--s-5) 0 var(--s-5) var(--s-5);
+    border-top: 1px solid var(--line-700);
+  }
+  .who-row::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -1px;
+    bottom: 0;
+    width: 2px;
+    background: var(--copper-400);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .who-row:hover::before {
+    transform: scaleY(1);
+  }
+  .who-row__name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(20px, 18.67px + 0.37vw, 24px);
+    line-height: 1.25;
+    color: var(--text-100);
+  }
+  .who-row__line {
+    margin-top: var(--s-2);
+    color: var(--text-300);
+    max-width: 62ch;
+  }
+  @media (min-width: 1024px) {
+    .who__title {
+      grid-column: 1 / span 5;
+      align-self: start;
+    }
+    .who__rows {
+      grid-column: 6 / span 7;
+    }
+    .who-row {
+      padding-block: var(--s-6);
+    }
+  }
+</style>

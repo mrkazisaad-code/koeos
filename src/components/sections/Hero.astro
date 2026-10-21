@@ -1,0 +1,334 @@
+---
+import Arrow from '../Arrow.astro';
+const words = 'We turn technology into businesses that earn.'.split(' ');
+const tags = [
+  'Product strategy',
+  'Go-to-market',
+  'Outcome pricing',
+  'Market entry',
+  'Operating models',
+  'AI agents',
+  'Venture building',
+  'Research IP',
+  'Governance',
+];
+// Gate positions as fractions of the field width; the canvas (A1) uses the same values.
+const gatesWide = [0.34, 0.48, 0.62, 0.76];
+const gatesNarrow = [0.2, 0.38, 0.56, 0.74];
+const gateLabels = ['CHOOSE', 'TEST', 'BUILD', 'SCALE'];
+---
+<section class="hero bg-grid" id="top" aria-labelledby="hero-title">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow hero__eyebrow hero-in" style="--d:0">VENTURE BUILDING · COMMERCIALISATION · AI — FROM LUXEMBOURG, FOR EUROPE</p>
+      <h1 class="hero__title" id="hero-title">
+        {words.map((w, i) => <><span class="hero__word" style={`--w:${i}`}>{w}</span>{i < words.length - 1 ? ' ' : ''}</>)}
+      </h1>
+      <p class="lead hero__sub hero-in" style="--d:480ms">Koeos builds the product, the offer and the operating model around technology, and takes it to paying customers in Europe. AI does much of the work. The client pays for the result.</p>
+      <div class="hero__actions hero-in" style="--d:600ms">
+        <a class="btn btn--primary" href="#contact">Start a conversation<Arrow /></a>
+        <a class="btn btn--secondary" href="#how">See how we work<Arrow /></a>
+      </div>
+      <p class="hero__small hero-in" style="--d:680ms">Operator-led. We have built and sold companies in Europe, the Middle East and South Asia.</p>
+    </div>
+  </div>
+
+  <div class="hero__field" data-hero-field data-gates-wide={gatesWide.join(',')} data-gates-narrow={gatesNarrow.join(',')}>
+    <p class="sr-only" id="hero-field-desc">Illustration of the method: many ideas enter from the left and meet four gates labelled choose, test, build and scale. At each gate about a third are stopped. Those that pass turn from grey to teal to copper and, after the last gate, form a rising line labelled revenue.</p>
+    {[['wide', gatesWide], ['narrow', gatesNarrow]].map(([kind, gates]) => (
+      <svg class={`hero__static hero__static--${kind}`} aria-hidden="true" focusable="false" width="100%" height="100%">
+        {(gates as number[]).map((g, i) => (
+          <g>
+            <line x1={`${g * 100}%`} x2={`${g * 100}%`} y1="56" y2="92%" stroke="#26363B" stroke-width="1" />
+            <text x={`${g * 100}%`} y="40" text-anchor="middle" class="hero__gate-label">{gateLabels[i]}</text>
+          </g>
+        ))}
+        <svg x={`${(gates as number[])[3] * 100}%`} y="27%" width={`${(1 - (gates as number[])[3]) * 100 - 6}%`} height="50%" viewBox="0 0 100 100" preserveAspectRatio="none" overflow="visible">
+          <path d="M0 92 C 22 90, 34 74, 50 58 S 80 18, 100 6" fill="none" stroke="#D9894A" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" />
+        </svg>
+        <text x="94%" y="27%" text-anchor="end" class="hero__rev-label" dy="-12">REVENUE</text>
+      </svg>
+    ))}
+    <canvas class="hero__canvas" aria-hidden="true"></canvas>
+  </div>
+
+  <div class="ticker" data-ticker>
+    <div class="ticker__viewport">
+      <div class="ticker__rail" data-ticker-rail>
+        <ul class="ticker__track" aria-label="Capabilities">
+          {tags.map((t) => <li>{t}</li>)}
+        </ul>
+        <ul class="ticker__track ticker__track--dup" aria-hidden="true">
+          {tags.map((t) => <li>{t}</li>)}
+        </ul>
+      </div>
+    </div>
+    <button type="button" class="ticker__toggle" aria-pressed="false" data-ticker-toggle hidden>
+      <svg class="ticker__icon ticker__icon--pause" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M3 2v8M9 2v8" stroke="currentColor" stroke-width="2" /></svg>
+      <svg class="ticker__icon ticker__icon--play" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M3 1.5v9l7-4.5z" fill="currentColor" /></svg>
+      <span class="sr-only">Pause moving list</span>
+    </button>
+  </div>
+</section>
+
+<style is:global>
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: max(720px, 100svh);
+    padding-top: calc(var(--header-h) + var(--s-8));
+    background-color: var(--ink-950);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: grid;
+    align-content: center;
+  }
+  .hero__copy {
+    max-width: 680px;
+  }
+  .hero__eyebrow {
+    color: var(--teal-300);
+    margin-bottom: var(--s-6);
+  }
+  .hero__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--fs-hero);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    color: var(--text-100);
+    text-wrap: balance;
+  }
+  .hero__word {
+    display: inline-block;
+  }
+  .hero__sub {
+    margin-top: var(--s-6);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-7);
+  }
+  .hero__small {
+    margin-top: var(--s-5);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-300);
+    max-width: 52ch;
+  }
+
+  /* Load sequence: headline word by word, then subhead, buttons, small line */
+  .js.motion .hero__word {
+    animation: hero-word var(--dur-base) var(--ease-out) both;
+    animation-delay: calc(var(--w) * 60ms);
+  }
+  .js.motion .hero-in {
+    animation: hero-word var(--dur-base) var(--ease-out) both;
+    animation-delay: var(--d);
+  }
+  @keyframes hero-word {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+  }
+
+  /* A1 field */
+  .hero__field {
+    position: relative;
+    z-index: 1;
+    height: 260px;
+    margin-top: var(--s-7);
+  }
+  .hero__static,
+  .hero__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero__static {
+    transition: opacity 1.2s var(--ease-in-out);
+  }
+  .hero__static--wide {
+    display: none;
+  }
+  .hero__canvas {
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-in-out);
+  }
+  .hero__field.is-live .hero__canvas {
+    opacity: 1;
+  }
+  .hero__field.is-live .hero__static {
+    opacity: 0;
+  }
+  .hero__gate-label {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    fill: var(--text-500);
+  }
+  .hero__rev-label {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    fill: var(--copper-400);
+  }
+  @media (min-width: 1024px) {
+    .hero {
+      --cw: min(var(--content-max), 100% - 2 * var(--margin));
+      --col: calc((var(--cw) - 11 * var(--gutter)) / 12);
+    }
+    .hero__copy {
+      max-width: none;
+      width: calc(7 * var(--col) + 6 * var(--gutter));
+    }
+    .hero__field {
+      position: absolute;
+      top: var(--header-h);
+      bottom: 56px;
+      right: 0;
+      left: calc((100% - var(--cw)) / 2 + 5 * (var(--col) + var(--gutter)));
+      height: auto;
+      margin: 0;
+    }
+    .hero__static--wide {
+      display: block;
+    }
+    .hero__static--narrow {
+      display: none;
+    }
+  }
+
+  /* Ticker */
+  .ticker {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    margin-top: var(--s-6);
+    border-top: 1px solid var(--line-700);
+    background: rgb(11 17 19 / 0.6);
+  }
+  .ticker__viewport {
+    flex: 1;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+  }
+  .ticker__rail {
+    display: flex;
+    width: max-content;
+  }
+  .ticker__track {
+    display: flex;
+    flex: none;
+  }
+  .ticker__track li {
+    display: flex;
+    align-items: center;
+    height: 55px;
+    padding-inline: 20px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-300);
+    white-space: nowrap;
+  }
+  .ticker__track li::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    margin-left: 40px;
+    background: var(--copper-400);
+    transform: rotate(45deg);
+    flex: none;
+  }
+  .motion .ticker__rail {
+    animation: ticker var(--ticker-dur, 44s) linear infinite;
+  }
+  .ticker:hover .ticker__rail,
+  .ticker:focus-within .ticker__rail,
+  .ticker.is-paused .ticker__rail,
+  .ticker.is-offscreen .ticker__rail {
+    animation-play-state: paused;
+  }
+  @keyframes ticker {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .ticker__toggle {
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-inline: 6px;
+    background: transparent;
+    border: 1px solid var(--line-700);
+    border-radius: 2px;
+    color: var(--text-300);
+  }
+  .ticker__toggle:hover {
+    color: var(--text-100);
+    border-color: var(--text-300);
+  }
+  .ticker__icon--play,
+  .ticker.is-paused .ticker__icon--pause {
+    display: none;
+  }
+  .ticker.is-paused .ticker__icon--play {
+    display: block;
+  }
+  /* Without motion: one static, wrapped list */
+  :root:not(.motion) .ticker__track--dup,
+  :root:not(.motion) .ticker__toggle {
+    display: none !important;
+  }
+  :root:not(.motion) .ticker__viewport {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  :root:not(.motion) .ticker__rail,
+  :root:not(.motion) .ticker__track {
+    width: auto;
+    flex-wrap: wrap;
+  }
+  :root:not(.motion) .ticker__rail {
+    padding-inline: calc(var(--margin) - 20px);
+    padding-block: var(--s-2);
+  }
+  :root:not(.motion) .ticker__track li {
+    height: 40px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker__track--dup,
+    .ticker__toggle {
+      display: none !important;
+    }
+    .ticker__rail,
+    .ticker__track {
+      width: auto;
+      flex-wrap: wrap;
+      animation: none !important;
+    }
+    .ticker__viewport {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+</style>

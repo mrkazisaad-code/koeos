@@ -1,0 +1,171 @@
+---
+const cards = [
+  {
+    n: '01',
+    title: 'Venture building and commercialisation',
+    promise: 'From technology to a first paying customer.',
+    text: 'We find the buyer decision worth paying to improve, shape the offer, set the price on the result where we can, and take it to market. That includes ventures built around a corporate’s problem and companies built on research IP.',
+    tags: ['Buyer and problem selection', 'Offer design', 'Outcome pricing', 'Go-to-market', 'Corporate ventures', 'Research IP to company'],
+  },
+  {
+    n: '02',
+    title: 'Market entry and European build-out',
+    promise: 'A base, a team and customers in Europe.',
+    text: 'For investors, portfolios and groups entering Europe, we set up from Luxembourg: the entity route, the team, the partners, the governance and a market sequence based on where the money is. We are a bridge for groups from Türkiye, the Gulf and South Asia.',
+    tags: ['Market sequence', 'Luxembourg base', 'Co-financing routes', 'Partner network', 'Finance, HR and legal set-up', 'First European customers'],
+  },
+  {
+    n: '03',
+    title: 'Operating models and outcome capability',
+    promise: 'Build the capability to sell and deliver outcomes.',
+    text: 'Professional-services firms and large enterprises already hold the expertise. The work is turning it into services that are priced on results, repeatable and partly run by AI. We redesign the operating model and the service so that people adopt it and the economics hold.',
+    tags: ['AI-native operating model', 'Service design', 'Outcome pricing', 'Adoption and roles', 'Controls for regulated firms', 'Pilot to production'],
+  },
+  {
+    n: '04',
+    title: 'AI products and agents',
+    promise: 'Working software in weeks.',
+    text: 'We build. Prototypes arrive in weeks with AI-assisted development, so decisions rest on something real. Agents are measured by the work they complete, and every step that reaches a customer is checked, logged and owned.',
+    tags: ['Prototypes', 'AI agents in production', 'Verification of AI output', 'Integration', 'Technology partners chosen on fit'],
+  },
+];
+---
+<section class="section what" id="what" aria-labelledby="what-title" tabindex="-1">
+  <svg class="what__line" role="img" aria-label="One line runs through the four disciplines in order, from 01 to 04, and ends in a result: four disciplines, one continuous piece of work." data-line-svg>
+    <path class="what__line-path" data-line-path d="" />
+    <circle class="what__line-dot" r="5" cx="-20" cy="-20" data-line-dot />
+  </svg>
+  <div class="container">
+    <p class="eyebrow" data-reveal>03 — <span class="eyebrow__rest">WHAT WE DO</span></p>
+    <div class="grid-12 what__body">
+      <div class="what__head section-head">
+        <h2 class="h2" id="what-title" data-reveal style="--i:1">Four disciplines, one way of working.</h2>
+        <p class="lead" data-reveal style="--i:2">Most engagements start in one discipline and draw on all four. Each is judged by what it earns.</p>
+      </div>
+      <ol class="what__cards" data-line-cards>
+        {cards.map((c) => (
+          <li class="card card--hover what-card" data-line-card>
+            <span class="card__num what-card__num" data-line-num aria-hidden="true">{c.n}</span>
+            <div class="what-card__body">
+              <h3 class="h3">{c.title}</h3>
+              <p class="what-card__promise">{c.promise}</p>
+              <p class="body what-card__text">{c.text}</p>
+              <ul class="tags" aria-label="Offerings">
+                {c.tags.map((t) => <li class="tag">{t}</li>)}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .what:focus {
+    outline: none;
+  }
+  .what__line {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .what__line-path {
+    fill: none;
+    stroke: var(--teal-500);
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .what__line-dot {
+    fill: var(--copper-400);
+  }
+  .what__body {
+    row-gap: var(--s-7);
+  }
+  .what__cards {
+    display: grid;
+    gap: var(--gutter);
+  }
+  .what-card {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    column-gap: var(--s-3);
+  }
+  .what-card__num {
+    position: relative;
+    z-index: 2;
+    justify-self: center;
+    align-self: start;
+    background: var(--ink-800);
+    padding: 4px 2px;
+    margin-top: -4px;
+    line-height: 1.3;
+  }
+  .what-card__body {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+  }
+  .what-card__promise {
+    color: var(--text-100);
+    font-weight: 600;
+  }
+  .what-card .tags {
+    margin-top: var(--s-3);
+  }
+  /* Cards wait for the line (A4) when motion is on */
+  .js.motion .what-card {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+  .js.motion .what-card.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .js.motion .what__line-dot {
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+  .js.motion .what__line.is-done .what__line-dot {
+    opacity: 1;
+  }
+  :root:not(.js) .what__line {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .what__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .what-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-5);
+    }
+    .what-card__num {
+      align-self: flex-start;
+      margin-left: -6px;
+      padding: 2px 6px;
+      margin-top: -2px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .what__head {
+      grid-column: 1 / span 5;
+      align-self: start;
+    }
+    .what__cards {
+      grid-column: 6 / span 7;
+    }
+  }
+</style>

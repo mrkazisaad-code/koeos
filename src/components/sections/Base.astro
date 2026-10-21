@@ -1,0 +1,203 @@
+---
+import BaseDiagram from '../diagrams/BaseDiagram.astro';
+---
+<section class="section base" id="base" aria-labelledby="base-title">
+  <div class="container">
+    <p class="eyebrow" data-reveal>05 — <span class="eyebrow__rest">ONE BASE, MANY BUSINESSES</span></p>
+    <div class="grid-12 base__body">
+      <div class="base__text">
+        <h2 class="h2" id="base-title" data-reveal style="--i:1">One technology base can carry several businesses.</h2>
+        <p class="lead" data-reveal style="--i:2">Most companies with a working platform sell it into one market. We look for the next market the same core can serve: for example, a defence system becoming an agriculture product, then an industrial one. Reusing the base cuts build time and cost, so each new business reaches revenue sooner. Venture studios and research centres can add a founder or IP that extends the base further.</p>
+        <p class="caption base__conditions" data-reveal style="--i:3">Each new business still passes its own buyer test. Where a base has defence origins, civil functions must be separable and EU dual-use export rules apply.</p>
+      </div>
+      <figure class="base__figure" data-scene="base">
+        <BaseDiagram layout="wide" />
+        <BaseDiagram layout="compact" />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .base__body {
+    row-gap: var(--s-7);
+  }
+  .base__text {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+  }
+  .base__conditions {
+    max-width: 56ch;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--line-700);
+  }
+  .base__figure {
+    margin: 0;
+  }
+  .base-dg {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+  .base-dg--wide {
+    display: none;
+    max-width: 640px;
+  }
+  .base-dg--compact {
+    max-width: 440px;
+    margin-inline: auto;
+  }
+  @media (min-width: 768px) {
+    .base-dg--wide {
+      display: block;
+    }
+    .base-dg--compact {
+      display: none;
+    }
+  }
+  @media (min-width: 1024px) {
+    .base__text {
+      grid-column: 1 / span 6;
+    }
+    .base__figure {
+      grid-column: 7 / span 6;
+      align-self: center;
+    }
+  }
+
+  .base-dg text {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+  .base-dg--wide text {
+    font-size: 13px;
+  }
+  .base-dg--compact text {
+    font-size: 12px;
+  }
+  .base-dg__branch,
+  .base-dg__scout-line {
+    fill: none;
+    stroke: var(--teal-500);
+    stroke-width: 1.5;
+  }
+  .base-dg__base {
+    fill: var(--ink-800);
+    stroke: var(--teal-300);
+    stroke-width: 1.5;
+  }
+  .base-dg__base-label {
+    fill: var(--text-100);
+  }
+  .base-dg__chip rect {
+    fill: var(--ink-950);
+    stroke: var(--line-700);
+  }
+  .base-dg__chip text {
+    fill: var(--text-300);
+    font-size: 11px !important;
+  }
+  .base-dg__label {
+    fill: var(--text-100);
+  }
+  .base-dg__label--muted {
+    fill: var(--text-300);
+  }
+  .base-dg__status {
+    font-size: 0.85em;
+  }
+  .base-dg__status--now {
+    fill: var(--teal-300);
+  }
+  .base-dg__status--next {
+    fill: var(--copper-400);
+  }
+  .base-dg__status--later,
+  .base-dg__status--focus {
+    fill: var(--text-500);
+  }
+  .base-dg__dot {
+    stroke-width: 1.5;
+  }
+  .base-dg__node--now .base-dg__dot {
+    fill: var(--teal-500);
+    stroke: var(--teal-500);
+  }
+  .base-dg__node--next .base-dg__dot {
+    fill: var(--ink-950);
+    stroke: var(--copper-400);
+    stroke-width: 2;
+  }
+  .base-dg__node--later .base-dg__dot {
+    fill: var(--ink-950);
+    stroke: var(--teal-500);
+  }
+  .base-dg__node--focus .base-dg__dot {
+    fill: var(--ink-950);
+    stroke: var(--teal-500);
+    stroke-dasharray: 3 3;
+  }
+  .base-dg__pulse {
+    fill: none;
+    stroke: var(--copper-400);
+    stroke-width: 1.5;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .base-dg__scout-dot {
+    fill: var(--ink-950);
+    stroke: var(--text-300);
+    stroke-width: 1.5;
+  }
+
+  /* Motion: build the diagram once when it enters view */
+  .js.motion [data-scene='base'] .base-dg__branch {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset var(--dur-slow) var(--ease-in-out);
+    transition-delay: calc(300ms + var(--i) * 160ms);
+  }
+  .js.motion [data-scene='base'] .base-dg__node,
+  .js.motion [data-scene='base'] .base-dg__scout {
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+    transition-delay: calc(300ms + var(--dur-slow) * 0.8 + var(--i, 0) * 160ms);
+  }
+  .js.motion [data-scene='base'] .base-dg__core {
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+  .js.motion [data-scene='base'] .base-dg__scout-line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset var(--dur-slow) var(--ease-in-out) 2100ms;
+  }
+  .js.motion [data-scene='base'] .base-dg__scout {
+    transition-delay: 1900ms;
+  }
+  .js.motion [data-scene='base'].is-play .base-dg__branch,
+  .js.motion [data-scene='base'].is-play .base-dg__scout-line {
+    stroke-dashoffset: 0;
+  }
+  .js.motion [data-scene='base'].is-play .base-dg__node,
+  .js.motion [data-scene='base'].is-play .base-dg__scout,
+  .js.motion [data-scene='base'].is-play .base-dg__core {
+    opacity: 1;
+  }
+  .js.motion [data-scene='base'].is-play .base-dg__pulse {
+    animation: pulse-once 1200ms var(--ease-out) 1600ms 1 both;
+  }
+  @keyframes pulse-once {
+    0% {
+      opacity: 0.9;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(2.6);
+    }
+  }
+</style>

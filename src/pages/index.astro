@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import Why from '../components/sections/Why.astro';
+import What from '../components/sections/What.astro';
+import How from '../components/sections/How.astro';
+import BaseSection from '../components/sections/Base.astro';
+import Where from '../components/sections/Where.astro';
+import Europe from '../components/sections/Europe.astro';
+import Who from '../components/sections/Who.astro';
+import Engage from '../components/sections/Engage.astro';
+import Record from '../components/sections/Record.astro';
+import Contact from '../components/sections/Contact.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL, CONTACT_EMAIL, LINKEDIN_URL } from '../config/site';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}#organization`,
+      name: 'Koeos',
+      url: SITE_URL,
+      email: CONTACT_EMAIL,
+      logo: new URL('/apple-touch-icon.png', SITE_URL).href,
+      sameAs: [LINKEDIN_URL],
+      address: { '@type': 'PostalAddress', addressCountry: 'LU', addressLocality: 'Luxembourg' },
+      areaServed: { '@type': 'Place', name: 'Europe' },
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': `${SITE_URL}#service`,
+      name: 'Koeos',
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+      email: CONTACT_EMAIL,
+      image: new URL('/og.png', SITE_URL).href,
+      parentOrganization: { '@id': `${SITE_URL}#organization` },
+      address: { '@type': 'PostalAddress', addressCountry: 'LU', addressLocality: 'Luxembourg' },
+      areaServed: { '@type': 'Place', name: 'Europe' },
+    },
+  ],
+};
+---
+<Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <Header />
+  <main id="main">
+    <Hero />
+    <Why />
+    <What />
+    <How />
+    <BaseSection />
+    <Where />
+    <Europe />
+    <Who />
+    <Engage />
+    <Record />
+    <Contact />
+  </main>
+  <Footer />
+  <script>
+    import '../scripts/main';
+  </script>
+</Base>

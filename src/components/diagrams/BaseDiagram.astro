@@ -1,0 +1,97 @@
+---
+/**
+ * A6 Branching base. Two compositions of the same diagram so labels stay legible:
+ * `wide` (≥768px) runs branches to the right; `compact` (<768px) stacks them vertically.
+ */
+interface Props {
+  layout: 'wide' | 'compact';
+}
+const { layout } = Astro.props;
+
+type Status = 'now' | 'next' | 'later' | 'focus';
+const markets: { name: string; status: Status; label: string }[] = [
+  { name: 'DEFENCE', status: 'now', label: 'NOW' },
+  { name: 'AGRICULTURE', status: 'now', label: 'NOW' },
+  { name: 'MANUFACTURING', status: 'next', label: 'NEXT' },
+  { name: 'ENTERPRISE', status: 'later', label: 'LATER' },
+  { name: 'SME', status: 'focus', label: 'IF A FOCUS' },
+];
+const chips = ['VISION', 'DECISION SUPPORT', 'DIGITAL TWIN', 'COORDINATION'];
+const chipW = (t: string) => t.length * 7.2 + 20;
+
+const W = layout === 'wide';
+const vb = W ? { w: 580, h: 500 } : { w: 340, h: 520 };
+const base = W ? { x: 40, y: 206, w: 200, h: 56 } : { x: 70, y: 86, w: 200, h: 52 };
+const baseCx = base.x + base.w / 2;
+const baseCy = base.y + base.h / 2;
+
+// Chips: two above the base, two below
+const chipY = W ? [base.y - 44, base.y + base.h + 18] : [base.y - 40, base.y + base.h + 14];
+const chipRows = [chips.slice(0, 2), chips.slice(2)];
+const chipEls = chipRows.flatMap((row, r) => {
+  const total = row.reduce((a, t) => a + chipW(t), 0) + 10;
+  let x = baseCx - total / 2;
+  return row.map((t) => {
+    const el = { t, x, y: chipY[r], w: chipW(t) };
+    x += chipW(t) + 10;
+    return el;
+  });
+});
+
+// Branches
+const nodeX = W ? 540 : 300;
+const ys = W ? [58, 146, 234, 322, 410] : [214, 266, 318, 370, 422];
+const trunkX = W ? 272 : 28;
+const branches = markets.map((m, i) => {
+  const y = ys[i];
+  let d: string;
+  if (W) {
+    const sx = base.x + base.w;
+    if (Math.abs(y - baseCy) < 1) d = `M${sx} ${baseCy}H${nodeX - 9}`;
+    else {
+      const dir = y < baseCy ? -1 : 1;
+      d = `M${sx} ${baseCy}H${trunkX - 12}Q${trunkX} ${baseCy} ${trunkX} ${baseCy + dir * 12}V${y - dir * 12}Q${trunkX} ${y} ${trunkX + 12} ${y}H${nodeX - 9}`;
+    }
+  } else {
+    d = `M${base.x} ${baseCy}H${trunkX + 12}Q${trunkX} ${baseCy} ${trunkX} ${baseCy + 12}V${y - 12}Q${trunkX} ${y} ${trunkX + 12} ${y}H${nodeX - 9}`;
+  }
+  return { ...m, y, d, i, lx: W ? trunkX + 22 : trunkX + 18 };
+});
+
+// Sixth line: from outside the frame, through the scouted node, into the base
+const scout = W
+  ? { nx: 90, ny: 462, d: `M-30 530L90 462Q${baseCx} 434 ${baseCx} 380V${base.y + base.h}`, lx: 106, ly: 467, anchor: 'start' }
+  : { nx: nodeX, ny: 474, d: `M${vb.w + 30} 500L${nodeX} 474H318Q328 474 328 464V${baseCy + 10}Q328 ${baseCy} 318 ${baseCy}H${base.x + base.w}`, lx: trunkX + 18, ly: 466, anchor: 'start' };
+---
+<svg class={`base-dg base-dg--${layout}`} viewBox={`0 0 ${vb.w} ${vb.h}`} role="img" aria-label="One shared technology base, with vision, decision support, digital twin and coordination capabilities, branches into five businesses: defence (now), agriculture (now), manufacturing (next), enterprise (later) and SME (if a focus). A scouted founder or IP can extend the base from outside." data-base-dg>
+  <g class="base-dg__branches">
+    {branches.map((b) => (
+      <path class="base-dg__branch" d={b.d} pathLength="1" style={`--i:${b.i}`} />
+    ))}
+  </g>
+  <path class="base-dg__scout-line" d={scout.d} pathLength="1" />
+
+  <g class="base-dg__core">
+    <rect x={base.x} y={base.y} width={base.w} height={base.h} rx="10" class="base-dg__base" />
+    <text x={baseCx} y={baseCy + 5} text-anchor="middle" class="base-dg__base-label">SHARED BASE</text>
+    {chipEls.map((c) => (
+      <g class="base-dg__chip">
+        <rect x={c.x} y={c.y} width={c.w} height="24" rx="12" />
+        <text x={c.x + c.w / 2} y={c.y + 16} text-anchor="middle">{c.t}</text>
+      </g>
+    ))}
+  </g>
+
+  {branches.map((b) => (
+    <g class={`base-dg__node base-dg__node--${b.status}`} style={`--i:${b.i}`}>
+      {b.status === 'next' && <circle class="base-dg__pulse" cx={nodeX} cy={b.y} r="9" />}
+      <circle cx={nodeX} cy={b.y} r="8" class="base-dg__dot" />
+      <text x={b.lx} y={b.y - 9} class="base-dg__label">{b.name}<tspan class={`base-dg__status base-dg__status--${b.status}`} dx="8">{b.label}</tspan></text>
+    </g>
+  ))}
+
+  <g class="base-dg__scout">
+    <circle cx={scout.nx} cy={scout.ny} r="7" class="base-dg__scout-dot" />
+    <text x={scout.lx} y={scout.ly} text-anchor={scout.anchor} class="base-dg__label base-dg__label--muted">SCOUTED FOUNDER OR IP</text>
+  </g>
+</svg>

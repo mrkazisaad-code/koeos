@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+qa/out/
+.DS_Store
+__pycache__/

@@ -1,0 +1,20 @@
+---
+import { source } from '../data/sources';
+interface Props {
+  n: number;
+  /** Unique suffix when the same source is cited more than once. */
+  k?: string;
+  /** Extra note for this citation (e.g. “Approximate.”). */
+  note?: string;
+}
+const { n, k = 'a', note } = Astro.props;
+const s = source(n);
+const id = `src-${n}-${k}`;
+---
+<button type="button" class="src" popovertarget={id} data-src={id} aria-label={`Source ${n}: ${s.publisher}, ${s.date}`}><span class="src__n" aria-hidden="true">{n}</span></button><span popover id={id} class="src-pop" role="dialog" aria-label={`Source ${n}`}>
+  <span class="src-pop__label" style="display:block">Source {n}</span>
+  <span class="src-pop__title" style="display:block">{s.title}</span>
+  <span class="src-pop__meta" style="display:block">{s.publisher} · {s.date}</span>
+  {note && <span class="src-pop__note" style="display:block">{note}</span>}
+  <a href={s.url} rel="noopener noreferrer" target="_blank">View source at {new URL(s.url).hostname.replace(/^www\./, '')}<span class="sr-only"> (opens in a new tab)</span></a>
+</span>

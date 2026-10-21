@@ -1,0 +1,237 @@
+---
+import EuropeMap from '../diagrams/EuropeMap.astro';
+import SourceMarker from '../SourceMarker.astro';
+---
+<section class="section europe" id="europe" aria-labelledby="europe-title">
+  <div class="container">
+    <p class="eyebrow" data-reveal>07 — <span class="eyebrow__rest">WHERE THE MONEY IS GOING</span></p>
+    <div class="section-head europe__head">
+      <h2 class="h2" id="europe-title" data-reveal style="--i:1">We follow where Europe spends, from a base in Luxembourg.</h2>
+      <p class="lead" data-reveal style="--i:2">Europe is regulated and buys through institutions. What is learned selling here carries into other markets.</p>
+    </div>
+
+    <div class="grid-12 europe__body" data-scene="europe">
+      <figure class="europe__map">
+        <EuropeMap layout="wide" />
+        <EuropeMap layout="compact" />
+        <figcaption class="caption europe__caption">Luxembourg is the hub: finance is about 30% of its economy<SourceMarker n={9} />, and a local entity opens national co-financing. Germany is the largest market on our watch; the others stay in view.</figcaption>
+      </figure>
+
+      <ul class="europe__figures">
+        <li class="fig" style="--i:0">
+          <p class="fig__num"><span>€418bn</span><SourceMarker n={4} /></p>
+          <p class="fig__text">EU defence spending in 2025, up 20%, and heading for up to €547bn by 2029.</p>
+        </li>
+        <li class="fig" style="--i:1">
+          <p class="fig__num"><span>~€2.7tn</span><SourceMarker n={5} note="Approximate." /></p>
+          <p class="fig__text">manufacturing value added in the EU each year; Germany holds 29% of it.<SourceMarker n={6} /></p>
+        </li>
+        <li class="fig" style="--i:2">
+          <p class="fig__num"><span>€2tn</span><SourceMarker n={7} /></p>
+          <p class="fig__text">public procurement in the EU each year, about 14% of GDP.</p>
+        </li>
+        <li class="fig" style="--i:3">
+          <p class="fig__num"><span>$20.3bn</span><SourceMarker n={8} /></p>
+          <p class="fig__text">deep-tech venture capital in Europe in 2025, a record 32% of all European VC.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .europe__head {
+    max-width: 900px;
+  }
+  .europe__body {
+    margin-top: var(--s-8);
+    row-gap: var(--s-7);
+  }
+  .europe__map {
+    margin: 0;
+  }
+  .map {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+  .map--wide {
+    display: none;
+  }
+  .map--compact {
+    max-width: 440px;
+    margin-inline: auto;
+  }
+  .europe__caption {
+    margin-top: var(--s-5);
+    max-width: 60ch;
+  }
+  .europe__figures {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-6) var(--s-4);
+    align-content: start;
+  }
+  .fig {
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--line-700);
+  }
+  .fig__num {
+    display: flex;
+    align-items: flex-start;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: clamp(26px, 21.33px + 1.296vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-100);
+  }
+  .fig__num .src {
+    top: 0;
+    vertical-align: top;
+  }
+  .fig__text {
+    margin-top: var(--s-3);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-300);
+  }
+  @media (min-width: 768px) {
+    .map--wide {
+      display: block;
+      max-width: 720px;
+    }
+    .map--compact {
+      display: none;
+    }
+    .europe__figures {
+      gap: var(--s-6) var(--gutter);
+    }
+    .fig__text {
+      font-size: 16px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .europe__map {
+      grid-column: 1 / span 7;
+    }
+    .europe__figures {
+      grid-column: 8 / span 5;
+      grid-template-columns: 1fr;
+      margin-left: var(--s-5);
+    }
+  }
+
+  /* Map styles */
+  .map__outline {
+    fill: none;
+    stroke: var(--line-700);
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+  .map__arc {
+    fill: none;
+    stroke: var(--teal-500);
+    stroke-width: 1.5;
+  }
+  .map__arc--out {
+    stroke-dasharray: 5 5;
+    stroke: var(--teal-300);
+    opacity: 0.8;
+  }
+  .map__mask-path {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 8;
+  }
+  .map__end-dot {
+    fill: var(--teal-300);
+  }
+  .map__end-dot--de {
+    fill: var(--ink-950);
+    stroke: var(--teal-300);
+    stroke-width: 2;
+  }
+  .map__label {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: var(--fs);
+    letter-spacing: 0.08em;
+    fill: var(--text-300);
+  }
+  .map__label--muted {
+    fill: var(--text-500);
+  }
+  .map__label--hub {
+    fill: var(--copper-400);
+  }
+  .map__hub-dot {
+    fill: var(--copper-400);
+  }
+  .map__pulse {
+    fill: none;
+    stroke: var(--copper-400);
+    stroke-width: 1.5;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .js.motion [data-scene='europe'].is-visible .map__pulse {
+    animation: hub-pulse 2.4s var(--ease-out) infinite;
+  }
+  @keyframes hub-pulse {
+    0% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(3.4);
+    }
+  }
+
+  /* Sequence: hub, arcs (200ms stagger), 600ms pause, outbound dashed arcs; figures reveal as arcs land */
+  .js.motion [data-scene='europe'] .map__hub {
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+  .js.motion [data-scene='europe'] .map__arc:not(.map__arc--out),
+  .js.motion [data-scene='europe'] .map__mask-path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset var(--dur-slow) var(--ease-in-out);
+    transition-delay: calc(400ms + var(--i) * 200ms);
+  }
+  .js.motion [data-scene='europe'] .map__mask-path {
+    transition-delay: calc(2700ms + var(--i) * 200ms);
+  }
+  .js.motion [data-scene='europe'] .map__end,
+  .js.motion [data-scene='europe'] .map__out-label {
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+    transition-delay: calc(1250ms + var(--i) * 200ms);
+  }
+  .js.motion [data-scene='europe'] .map__out-label {
+    transition-delay: calc(3550ms + var(--i) * 200ms);
+  }
+  .js.motion [data-scene='europe'] .fig {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+    transition-delay: calc(1300ms + var(--i) * 200ms);
+  }
+  .js.motion [data-scene='europe'].is-play .map__hub,
+  .js.motion [data-scene='europe'].is-play .map__end,
+  .js.motion [data-scene='europe'].is-play .map__out-label,
+  .js.motion [data-scene='europe'].is-play .fig {
+    opacity: 1;
+    transform: none;
+  }
+  .js.motion [data-scene='europe'].is-play .map__arc,
+  .js.motion [data-scene='europe'].is-play .map__mask-path {
+    stroke-dashoffset: 0;
+  }
+</style>
