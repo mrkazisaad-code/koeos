@@ -10,13 +10,14 @@ const { layout } = Astro.props;
 
 type Status = 'now' | 'next' | 'later' | 'focus';
 const markets: { name: string; status: Status; label: string }[] = [
-  { name: 'DEFENCE', status: 'now', label: 'NOW' },
-  { name: 'AGRICULTURE', status: 'now', label: 'NOW' },
-  { name: 'MANUFACTURING', status: 'next', label: 'NEXT' },
+  { name: 'FIRST USE', status: 'now', label: 'NOW' },
+  { name: 'SECOND MARKET', status: 'next', label: 'NEXT' },
+  { name: 'NEW SERVICE', status: 'next', label: 'NEXT' },
   { name: 'ENTERPRISE', status: 'later', label: 'LATER' },
-  { name: 'SME', status: 'focus', label: 'IF A FOCUS' },
+  // The option node keeps the dashed outline the previous fifth node had
+  { name: 'NEW VENTURE', status: 'focus', label: 'OPTION' },
 ];
-const chips = ['VISION', 'DECISION SUPPORT', 'DIGITAL TWIN', 'COORDINATION'];
+const chips = ['DATA', 'MODELS', 'WORKFLOWS', 'INTEGRATIONS'];
 const chipW = (t: string) => t.length * 7.2 + 20;
 
 const W = layout === 'wide';
@@ -63,7 +64,7 @@ const scout = W
   ? { nx: 90, ny: 462, d: `M-30 530L90 462Q${baseCx} 434 ${baseCx} 380V${base.y + base.h}`, lx: 106, ly: 467, anchor: 'start' }
   : { nx: nodeX, ny: 474, d: `M${vb.w + 30} 500L${nodeX} 474H318Q328 474 328 464V${baseCy + 10}Q328 ${baseCy} 318 ${baseCy}H${base.x + base.w}`, lx: trunkX + 18, ly: 466, anchor: 'start' };
 ---
-<svg class={`base-dg base-dg--${layout}`} viewBox={`0 0 ${vb.w} ${vb.h}`} role="img" aria-label="One shared technology base, with vision, decision support, digital twin and coordination capabilities, branches into five businesses: defence (now), agriculture (now), manufacturing (next), enterprise (later) and SME (if a focus). A scouted founder or IP can extend the base from outside." data-base-dg>
+<svg class={`base-dg base-dg--${layout}`} viewBox={`0 0 ${vb.w} ${vb.h}`} role="img" aria-label="One shared base of data, models, workflows and integrations, built once, branches into five uses: first use (now), second market (next), new service (next), enterprise (later) and new venture (option). A scouted founder or IP can extend the base from outside." data-base-dg>
   <g class="base-dg__branches">
     {branches.map((b) => (
       <path class="base-dg__branch" d={b.d} pathLength="1" style={`--i:${b.i}`} />

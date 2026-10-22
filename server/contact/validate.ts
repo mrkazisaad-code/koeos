@@ -11,12 +11,17 @@ export type ContactInput = {
 export const LIMITS = { name: 200, organisation: 200, email: 254, message: 1500 } as const;
 export const STARTING_POINTS = [
   'Investor or venture builder',
-  'Group entering Europe',
-  'Large enterprise',
+  'Technology group entering Europe',
+  'Large organisation',
   'Professional-services firm',
   'Founder or research team',
   'Other',
 ];
+/** Labels used before the 22 Oct 2026 revision route the same way as their replacements. */
+const LEGACY_STARTING_POINTS: Record<string, string> = {
+  'Group entering Europe': 'Technology group entering Europe',
+  'Large enterprise': 'Large organisation',
+};
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -38,6 +43,7 @@ export function validateContact(raw: Record<string, unknown>) {
   else if (data.email.length > LIMITS.email || !EMAIL_RE.test(data.email)) errors.email = 'Please add a valid email address.';
   if (!data.message) errors.message = 'Please add a few lines about what should be earning.';
   else if (data.message.length > LIMITS.message) errors.message = 'Please keep this to 1,500 characters or fewer.';
+  data.starting_point = LEGACY_STARTING_POINTS[data.starting_point] ?? data.starting_point;
   if (data.starting_point && !STARTING_POINTS.includes(data.starting_point)) data.starting_point = '';
   return { ok: Object.keys(errors).length === 0, errors, data };
 }

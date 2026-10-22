@@ -11,7 +11,7 @@ const ok = (name, cond, extra = '') => results.push(`${cond ? 'PASS' : 'FAIL'}  
   const p = await ctx.newPage();
   await p.goto('http://localhost:4321/');
   const txt = await p.locator('main').innerText();
-  ok('no-JS: final figures present', ['20%', '72%', '€418bn', '~€2.7tn', '€2tn', '$20.3bn', '1,284', '20+', '180'].every((f) => txt.includes(f)));
+  ok('no-JS: final figures present', ['20%', '55%', '€6.79tn', '45%', '€300m', '20+', '25+', '€200m+', '12+'].every((f) => txt.includes(f)));
   const hidden = await p.evaluate(() => [...document.querySelectorAll('[data-reveal], .what-card, .fig, .eng-row__get')].filter((e) => getComputedStyle(e).opacity === '0').length);
   ok('no-JS: no hidden reveal content', hidden === 0, `hidden=${hidden}`);
   await p.locator('#src-4-a').evaluate(() => 0);
@@ -30,14 +30,14 @@ const ok = (name, cond, extra = '') => results.push(`${cond ? 'PASS' : 'FAIL'}  
     hidden: [...document.querySelectorAll('[data-reveal], .what-card, .fig')].filter((e) => getComputedStyle(e).opacity === '0').length,
     lit: document.querySelectorAll('.loop__node').length,
     unlit: [...document.querySelectorAll('.loop__node circle')].filter((c) => getComputedStyle(c).fill === 'rgb(24, 36, 40)').length,
-    ticker: getComputedStyle(document.querySelector('.ticker__track--dup')).display,
+    ticker: document.querySelectorAll('.ticker__track').length,
     canvasLive: document.querySelector('[data-hero-field]').classList.contains('is-live'),
     lineDash: document.querySelector('[data-line-path]').style.strokeDashoffset,
   }));
   ok('reduced motion: no motion class', !st.motion);
   ok('reduced motion: all content visible', st.hidden === 0, `hidden=${st.hidden}`);
   ok('reduced motion: loop nodes lit', st.unlit === 0);
-  ok('reduced motion: ticker static (duplicate hidden)', st.ticker === 'none');
+  ok('reduced motion: ticker static (no duplicate copy)', st.ticker === 1);
   ok('reduced motion: hero static SVG (no canvas)', !st.canvasLive);
   ok('reduced motion: A4 line fully drawn', parseFloat(st.lineDash || '0') < 1, `offset=${st.lineDash}`);
   await ctx.close();
@@ -51,6 +51,27 @@ const ok = (name, cond, extra = '') => results.push(`${cond ? 'PASS' : 'FAIL'}  
   await p.goto('http://localhost:4321/');
   await p.waitForTimeout(1500);
   ok('hero canvas live after headline', await p.evaluate(() => document.querySelector('[data-hero-field]').classList.contains('is-live')));
+  const tick = await p.evaluate(() => [...document.querySelectorAll('.ticker__track')].map((t) => t.getAttribute('aria-hidden')));
+  ok('ticker duplicate cloned by JS and aria-hidden', tick.length === 2 && tick[0] === null && tick[1] === 'true');
+  const hero = await p.evaluate(() => {
+    const f = document.querySelector('[data-hero-field]').getBoundingClientRect();
+    const h = document.querySelector('[data-header]').getBoundingClientRect();
+    const c = document.querySelector('.hero__canvas');
+    return { top: f.top, headerBottom: h.bottom, w: f.width, h: f.height, cw: c.width, ch: c.height, dpr: Math.min(devicePixelRatio, 2) };
+  });
+  ok('hero field below the header', hero.top >= hero.headerBottom, JSON.stringify(hero));
+  ok('hero field ≤ 640×420 at 640:420', hero.w <= 640.5 && Math.abs(hero.w / hero.h - 640 / 420) < 0.02);
+  ok('canvas sized from its box × DPR', Math.abs(hero.cw - hero.w * hero.dpr) <= 1 && Math.abs(hero.ch - hero.h * hero.dpr) <= 1);
+  await p.setViewportSize({ width: 900, height: 900 });
+  await p.waitForTimeout(400);
+  const after = await p.evaluate(() => {
+    const f = document.querySelector('[data-hero-field]').getBoundingClientRect();
+    const c = document.querySelector('.hero__canvas');
+    return { w: f.width, h: f.height, cw: c.width };
+  });
+  ok('canvas redraws on resize (height = 0.6 × width below 1024)', Math.abs(after.cw - after.w) <= 1 && Math.abs(after.h - after.w * 0.6) < 1, JSON.stringify(after));
+  await p.setViewportSize({ width: 1440, height: 900 });
+  await p.waitForTimeout(300);
   // keyboard: first tab = skip link
   await p.keyboard.press('Tab');
   ok('first Tab focuses skip link', (await p.evaluate(() => document.activeElement.className)) === 'skip-link');
@@ -80,7 +101,7 @@ const ok = (name, cond, extra = '') => results.push(`${cond ? 'PASS' : 'FAIL'}  
   // sources dialog
   await p.click('[data-open-sources]');
   ok('sources dialog opens', await p.locator('[data-sources-dialog]').isVisible());
-  ok('sources dialog lists 9 sources', (await p.locator('[data-sources-dialog] li').count()) === 9);
+  ok('sources dialog lists 5 sources', (await p.locator('[data-sources-dialog] li').count()) === 5);
   await p.keyboard.press('Escape');
   ok('sources dialog closes on Escape', !(await p.locator('[data-sources-dialog]').isVisible()));
   // header hide/show + progress
@@ -115,6 +136,20 @@ const ok = (name, cond, extra = '') => results.push(`${cond ? 'PASS' : 'FAIL'}  
   await p.waitForTimeout(500);
   ok('form: success replaces form', (await p.locator('[data-form-success]').isVisible()) && !(await p.locator('[data-contact-form]').isVisible()));
   ok('form: success copy', (await p.textContent('[data-form-success]')).trim() === 'Thank you. We will reply within two business days.');
+  // A3: units cycle, no number
+  await p.locator('[data-licence]').scrollIntoViewIfNeeded();
+  await p.waitForTimeout(1600);
+  const u1 = await p.locator('.licence__unit.is-active').textContent();
+  await p.waitForTimeout(2400);
+  const u2 = await p.locator('.licence__unit.is-active').textContent();
+  ok('A3 cycles outcome units', u1 !== u2 && /^€ · PER /.test(u1) && /^€ · PER /.test(u2), `${u1} → ${u2}`);
+  // Counters: read once, with the right value, after animating
+  await p.locator('#record').scrollIntoViewIfNeeded();
+  await p.waitForTimeout(1500);
+  const counters = await p.evaluate(() => [...document.querySelectorAll('#record .counter__num')].map((e) => e.textContent));
+  ok('counters end on exact values', JSON.stringify(counters) === JSON.stringify(['20+', '25+', '€200m+', '12+', '4']), JSON.stringify(counters));
+  const extract = await p.evaluate(() => document.querySelector('#record').innerText);
+  ok('text extraction reads each counter once', !/2020|2525|55 companies|22 exits/.test(extract));
   ok('no page errors', errors.length === 0, errors.join(' | '));
   await ctx.close();
 }

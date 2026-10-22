@@ -4,37 +4,40 @@ import SourceMarker from '../SourceMarker.astro';
 ---
 <section class="section europe" id="europe" aria-labelledby="europe-title">
   <div class="container">
-    <p class="eyebrow" data-reveal>07 — <span class="eyebrow__rest">WHERE THE MONEY IS GOING</span></p>
+    <p class="eyebrow" data-reveal>07 · <span class="eyebrow__rest">FROM LUXEMBOURG, INTO EUROPE</span></p>
     <div class="section-head europe__head">
-      <h2 class="h2" id="europe-title" data-reveal style="--i:1">We follow where Europe spends, from a base in Luxembourg.</h2>
-      <p class="lead" data-reveal style="--i:2">Europe is regulated and buys through institutions. What is learned selling here carries into other markets.</p>
+      <h2 class="h2" id="europe-title" data-reveal style="--i:1">Luxembourg is the base. Europe is the market.</h2>
+      <p class="lead" data-reveal style="--i:2">We work from Luxembourg into the customers, partners, institutions and capital that fit the opportunity. We pick the first market on five tests: buyer need, access, economics, regulation and speed to evidence. Then we expand from what works.</p>
     </div>
 
     <div class="grid-12 europe__body" data-scene="europe">
       <figure class="europe__map">
         <EuropeMap layout="wide" />
         <EuropeMap layout="compact" />
-        <figcaption class="caption europe__caption">Luxembourg is the hub: finance is about 30% of its economy<SourceMarker n={9} />, and a local entity opens national co-financing. Germany is the largest market on our watch; the others stay in view.</figcaption>
+        <figcaption class="caption europe__caption">Luxembourg is our operating base: international, cross-border and inside the EU. The market comes from the opportunity, not the map.</figcaption>
       </figure>
 
-      <ul class="europe__figures">
-        <li class="fig" style="--i:0">
-          <p class="fig__num"><span>€418bn</span><SourceMarker n={4} /></p>
-          <p class="fig__text">EU defence spending in 2025, up 20%, and heading for up to €547bn by 2029.</p>
-        </li>
-        <li class="fig" style="--i:1">
-          <p class="fig__num"><span>~€2.7tn</span><SourceMarker n={5} note="Approximate." /></p>
-          <p class="fig__text">manufacturing value added in the EU each year; Germany holds 29% of it.<SourceMarker n={6} /></p>
-        </li>
-        <li class="fig" style="--i:2">
-          <p class="fig__num"><span>€2tn</span><SourceMarker n={7} /></p>
-          <p class="fig__text">public procurement in the EU each year, about 14% of GDP.</p>
-        </li>
-        <li class="fig" style="--i:3">
-          <p class="fig__num"><span>$20.3bn</span><SourceMarker n={8} /></p>
-          <p class="fig__text">deep-tech venture capital in Europe in 2025, a record 32% of all European VC.</p>
-        </li>
-      </ul>
+      <div class="europe__side">
+        <h3 class="h3 europe__side-title" data-reveal>What the base gives you.</h3>
+        <ul class="europe__figures">
+          <li class="fig" style="--i:0">
+            <p class="fig__num"><span>EU</span></p>
+            <p class="fig__text">Inside the single market: EU law and regulation, with the European Investment Bank in Luxembourg.</p>
+          </li>
+          <li class="fig" style="--i:1">
+            <p class="fig__num"><span>€6.79tn</span><SourceMarker n={3} /></p>
+            <p class="fig__text">Net assets of investment funds based in Luxembourg.</p>
+          </li>
+          <li class="fig" style="--i:2">
+            <p class="fig__num"><span>45%</span><SourceMarker n={4} /></p>
+            <p class="fig__text">of people working in Luxembourg live in France, Germany or Belgium. Cross-border is the default.</p>
+          </li>
+          <li class="fig" style="--i:3">
+            <p class="fig__num"><span>€300m</span><SourceMarker n={5} /></p>
+            <p class="fig__text">Extra SNCI financing over five years for start-ups and innovation, through loans, aid and equity.</p>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -112,14 +115,19 @@ import SourceMarker from '../SourceMarker.astro';
       font-size: 16px;
     }
   }
+  .europe__side-title {
+    margin-bottom: var(--s-5);
+  }
   @media (min-width: 1024px) {
     .europe__map {
       grid-column: 1 / span 7;
     }
-    .europe__figures {
+    .europe__side {
       grid-column: 8 / span 5;
-      grid-template-columns: 1fr;
       margin-left: var(--s-5);
+    }
+    .europe__figures {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -132,7 +140,7 @@ import SourceMarker from '../SourceMarker.astro';
   }
   .map__arc {
     fill: none;
-    stroke: var(--teal-500);
+    stroke: var(--teal-300);
     stroke-width: 1.5;
   }
   .map__arc--out {
@@ -148,17 +156,17 @@ import SourceMarker from '../SourceMarker.astro';
   .map__end-dot {
     fill: var(--teal-300);
   }
-  .map__end-dot--de {
-    fill: var(--ink-950);
-    stroke: var(--teal-300);
-    stroke-width: 2;
-  }
   .map__label {
     font-family: var(--font-mono);
     font-weight: 500;
     font-size: var(--fs);
     letter-spacing: 0.08em;
     fill: var(--text-300);
+    /* Dark halo keeps labels legible where arcs pass behind them */
+    paint-order: stroke;
+    stroke: var(--ink-950);
+    stroke-width: 4px;
+    stroke-linejoin: round;
   }
   .map__label--muted {
     fill: var(--text-500);

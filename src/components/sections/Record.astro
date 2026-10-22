@@ -1,42 +1,56 @@
 ---
-import { CONTENT_FLAGS } from '../../config/site';
 const counters = [
-  { value: 20, suffix: '+', label: 'years building and running businesses' },
-  { value: 5, suffix: '', label: 'companies founded' },
-  { value: 2, suffix: '', label: 'exits' },
-  { value: 9, suffix: '', label: 'products shipped' },
-  { value: 180, suffix: '', label: 'people in the largest team built' },
+  { value: '20+', label: 'years each, building, investing and leading' },
+  { value: '25+', label: 'companies founded, built or backed' },
+  { value: '€200m+', label: 'raised or advised' },
+  { value: '12+', label: 'exits and transactions' },
+  { value: '4', label: 'regions: Europe, the Middle East, South Asia and the US' },
 ];
+// Two rows of four. No card names a person, company, fund or acquirer, and cards carry no dates.
 const experience = [
   {
     title: 'Logistics procurement software',
-    // Acquisition clause confirmed by the owner (CONTENT_FLAGS.ACQUISITION_WORDING_CONFIRMED).
-    text: CONTENT_FLAGS.ACQUISITION_WORDING_CONFIRMED
-      ? 'Led product strategy and the product organisation through the company’s acquisition, including its first AI procurement product.'
-      : 'Led product strategy and the product organisation, including its first AI procurement product.',
+    text: 'Built the product organisation and strategy as the company prepared for acquisition, including its first AI procurement product.',
   },
   {
     title: 'A major professional services firm in Luxembourg',
-    text: 'Led service-delivery transformation and a GenAI team, shaped a firm-wide AI operating model, and led the team behind an approved internal AI investment case.',
+    text: 'Led service-delivery transformation and a GenAI team, shaped the AI operating model across the Luxembourg firm, and led the team behind an approved internal AI investment case.',
   },
   { title: 'Cloud and digital services', text: 'Ran product and innovation, turning services into products customers could buy.' },
-  { title: 'Business process outsourcing', text: 'Founded the business and grew it to about 180 people.' },
+  { title: 'Business process outsourcing', text: 'Founded the business and grew it to 100+ people.' },
+  {
+    title: 'Technology venture capital',
+    text: 'Invested in technology businesses at a European VC firm and supported founders through financing, growth and strategic decisions.',
+  },
+  {
+    title: 'Boards and strategic advice',
+    text: 'Advised founders, leadership teams and shareholders on strategy, financing and organisation, as investor, CEO and board member.',
+  },
+  {
+    title: 'Fundraising and transactions',
+    text: 'Prepared technology and industrial businesses for financial and strategic investors, financing rounds and M&A.',
+  },
+  {
+    title: 'Deep technology and strategic sectors',
+    text: 'Commercial positioning and routes to scale for robotics, AI, biotechnology and advanced-industry ventures, including defence and security, where technology is judged against mission requirements and operational effect.',
+  },
 ];
 ---
 <section class="section section--alt record" id="record" aria-labelledby="record-title">
   <div class="container">
-    <p class="eyebrow" data-reveal>10 — <span class="eyebrow__rest">TRACK RECORD</span></p>
-    <h2 class="h2" id="record-title" data-reveal style="--i:1">We have built, run and sold companies.</h2>
+    <p class="eyebrow" data-reveal>10 · <span class="eyebrow__rest">TRACK RECORD</span></p>
+    <h2 class="h2" id="record-title" data-reveal style="--i:1">We have built products and companies, run large operations, and invested in technology.</h2>
 
     <ul class="record__counters" data-counter-group>
       {counters.map((c, i) => (
         <li class="counter" style={`--i:${i}`}>
-          <span class="big-number counter__num"><span class="sr-only">{c.value}{c.suffix}</span><span aria-hidden="true" data-count={c.value} data-suffix={c.suffix}>{c.value}{c.suffix}</span></span>
+          <span class="big-number counter__num" data-count>{c.value}</span>
           <span class="counter__rule" aria-hidden="true"></span>
           <span class="counter__label">{c.label}</span>
         </li>
       ))}
     </ul>
+    <p class="caption record__counters-note" data-reveal>Combined experience of the Koeos partners.</p>
 
     <ul class="record__cards">
       {experience.map((e, i) => (
@@ -47,7 +61,7 @@ const experience = [
       ))}
     </ul>
 
-    <p class="caption record__note" data-reveal>Client, employer and acquirer names are withheld.</p>
+    <p class="caption record__note" data-reveal>Client, employer, fund and acquirer names are withheld.</p>
   </div>
 </section>
 
@@ -92,10 +106,13 @@ const experience = [
   .js.motion .record__counters.is-counted .counter__rule {
     transform: none;
   }
+  .record__counters-note {
+    margin-top: var(--s-6);
+  }
   .record__cards {
     display: grid;
     gap: var(--gutter);
-    margin-top: var(--s-9);
+    margin-top: var(--s-8);
   }
   .record-card {
     display: grid;
@@ -106,8 +123,9 @@ const experience = [
     margin-top: var(--s-6);
   }
   @media (min-width: 768px) {
+    /* Columns grow to fit the widest figure (€200m+) instead of letting it overrun */
     .record__counters {
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(min-content, 1fr));
     }
     .counter:last-child {
       grid-column: auto;

@@ -11,15 +11,16 @@ const topo = JSON.parse(readFileSync(require.resolve('world-atlas/countries-50m.
 const simplified = simplify(presimplify(topo), quantile(presimplify(topo), 0.12));
 const lines = mesh(simplified, simplified.objects.countries);
 
+// Luxembourg plus decorative arc end points (deliberately not on capital cities) and one
+// point outside the frame for the dashed BEYOND EUROPE arc.
 const places = {
   lu: [6.13, 49.61],
-  de: [10.2, 51.2],
-  fr: [2.4, 46.9],
-  nl: [5.4, 52.3],
-  be: [4.4, 50.65],
-  uk: [-1.6, 52.6],
-  emea: [33, 34],
-  us: [-40, 47],
+  customers: [16.6, 52.6],
+  capital: [-2.2, 53.4],
+  partners: [1.6, 45.6],
+  research: [10.0, 56.2],
+  publicMarkets: [13.4, 46.9],
+  beyond: [8, 26],
 };
 
 // Each variant is a crop of the same projection, sized so labels render near 11px.

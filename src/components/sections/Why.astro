@@ -1,53 +1,56 @@
 ---
 import SourceMarker from '../SourceMarker.astro';
 // A3 seat grid: 12 seats, 6 x 2
-const seats = Array.from({ length: 12 }, (_, i) => ({ x: (i % 6) * 46 + 4, y: Math.floor(i / 6) * 44 + 34, i }));
+const seats = Array.from({ length: 12 }, (_, i) => ({ x: (i % 6) * 46 + 4, y: Math.floor(i / 6) * 40 + 30, i }));
+// End state: the price unit cycles through four outcomes (about 2.2s each)
+const units = ['PER CLAIM SETTLED', 'PER FILE CLEARED', 'PER TENDER PRICED', 'PER ASSET ASSESSED'];
 ---
 <section class="section section--alt" id="why" aria-labelledby="why-title">
   <div class="container">
-    <p class="eyebrow" data-reveal>02 — <span class="eyebrow__rest">WHY WE EXIST</span></p>
+    <p class="eyebrow" data-reveal>02 · <span class="eyebrow__rest">WHY WE EXIST</span></p>
     <div class="why__head section-head">
-      <h2 class="h2" id="why-title" data-reveal style="--i:1">Most technology stalls between a working product and a paying customer.</h2>
-      <p class="lead" data-reveal style="--i:2">The gap is rarely the technology. It is the buyer, the offer, the price and the way the work gets delivered. We close that gap, and we measure it in revenue.</p>
+      <h2 class="h2" id="why-title" data-reveal style="--i:1">Most technology stalls before it pays back.</h2>
+      <p class="lead" data-reveal style="--i:2">The gap is rarely the technology. It is the problem chosen, the offer, the adoption and the way the work gets delivered. We close that gap and measure it in money.</p>
     </div>
 
     <div class="why__cards">
       <article class="why-card" data-reveal style="--i:0" data-counter-group>
         <p class="why-card__stat">
-          <span class="big-number"><span class="sr-only">20%</span><span aria-hidden="true" data-count="20" data-suffix="%">20%</span></span><SourceMarker n={1} />
+          <span class="big-number" data-count>20%</span><SourceMarker n={1} />
         </p>
         <div class="meter" aria-hidden="true"><span style="--p:0.2" data-meter></span></div>
-        <p class="body">of EU enterprises used AI in 2025. Among large firms it was 55%; among small firms, 17%. Adoption is early and uneven.</p>
+        <p class="body">of EU enterprises used AI in 2025. Adoption is still early.</p>
       </article>
 
       <article class="why-card" data-reveal style="--i:1" data-counter-group>
         <p class="why-card__stat">
-          <span class="big-number"><span class="sr-only">72%</span><span aria-hidden="true" data-count="72" data-suffix="%">72%</span></span><SourceMarker n={2} />
+          <span class="big-number" data-count>55%</span><SourceMarker n={1} k="b" />
         </p>
-        <div class="meter" aria-hidden="true"><span style="--p:0.72" data-meter></span></div>
-        <p class="body">of large European organisations work with startups, yet many proofs of concept never reach full deployment.</p>
+        <div class="meter" aria-hidden="true"><span style="--p:0.55" data-meter></span></div>
+        <p class="body">of large EU firms used AI in 2025, against 17% of small ones.</p>
       </article>
 
       <article class="why-card why-card--feature" data-reveal style="--i:2">
-        <h3 class="h3">Buyers now pay for results.<SourceMarker n={3} /></h3>
-        <p class="body">A claim settled, a file cleared, a tender priced. AI makes delivering results economic at scale, if the operating model is built for it. We build those offers for clients, and we help firms build the capability to sell them.</p>
+        <h3 class="h3">More technology can now be sold as an outcome.<SourceMarker n={2} /></h3>
+        <p class="body">Expertise, software and agents, under the right operating model, deliver the result itself: a claim settled, a file cleared, an assessment delivered, priced on what is done. We build these offers for clients and help firms build the capability to sell them.</p>
 
-        <svg class="licence" viewBox="0 0 280 150" role="img" aria-label="Pricing moves from a licence charged per seat per month to a count of outcomes delivered. Illustrative." data-licence>
+        <svg class="licence" viewBox="0 0 280 120" role="img" aria-label="Pricing moves from per seat per month to per outcome, such as per claim settled." data-licence>
           <g class="licence__seats">
-            <text x="0" y="12" class="licence__label">LICENCE · € / SEAT / MONTH</text>
             {seats.map((s) => (
-              <g class="licence__seat" style={`--i:${s.i};transform-origin:${s.x + 13}px ${s.y + 14}px;--dx:${140 - (s.x + 13)}px;--dy:${82 - (s.y + 14)}px`}>
+              <g class="licence__seat" style={`--i:${s.i};transform-origin:${s.x + 13}px ${s.y + 14}px;--dx:${120 - (s.x + 13)}px;--dy:${78 - (s.y + 14)}px`}>
                 <rect x={s.x + 4} y={s.y} width="18" height="12" rx="2" />
                 <rect x={s.x} y={s.y + 15} width="26" height="9" rx="2" />
                 <path d={`M${s.x + 4} ${s.y + 24}v5M${s.x + 22} ${s.y + 24}v5`} />
               </g>
             ))}
           </g>
-          <g class="licence__outcome">
-            <text x="0" y="12" class="licence__label">OUTCOMES DELIVERED</text>
-            <text x="0" y="82" class="licence__number" data-licence-count>1,284</text>
-            <line x1="0" y1="102" x2="280" y2="102" class="licence__rule" />
-            <text x="0" y="128" class="licence__caption">Illustrative</text>
+          <text x="0" y="12" class="licence__label">LICENCE · € / SEAT / MONTH</text>
+          <line x1="0" y1="8" x2="186" y2="8" class="licence__strike" />
+          <g class="licence__outcome" aria-hidden="true">
+            {units.map((u, i) => (
+              <text x="0" y="78" class={`licence__unit${i === 0 ? ' is-active' : ''}`} data-licence-unit>€ · {u}</text>
+            ))}
+            <line x1="0" y1="100" x2="280" y2="100" class="licence__rule" />
           </g>
         </svg>
       </article>
@@ -157,7 +160,7 @@ const seats = Array.from({ length: 12 }, (_, i) => ({ x: (i % 6) * 46 + 4, y: Ma
     }
   }
 
-  /* A3 Licence to outcome */
+  /* A3 Licence to outcome: seats dissolve into a per-outcome price unit */
   .licence {
     width: 100%;
     max-width: 340px;
@@ -173,28 +176,31 @@ const seats = Array.from({ length: 12 }, (_, i) => ({ x: (i % 6) * 46 + 4, y: Ma
     letter-spacing: 0.12em;
     fill: var(--text-500);
   }
+  .licence__strike {
+    stroke: var(--text-500);
+    stroke-width: 1;
+  }
   .licence__seat {
     fill: none;
     stroke: var(--text-500);
     stroke-width: 1.2;
   }
-  .licence__number {
+  .licence__unit {
     font-family: var(--font-mono);
     font-weight: 500;
-    font-size: 48px;
-    letter-spacing: -0.02em;
-    font-variant-numeric: tabular-nums;
+    font-size: 15px;
+    letter-spacing: 0.12em;
     fill: var(--copper-400);
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-in-out);
+  }
+  .licence__unit.is-active {
+    opacity: 1;
   }
   .licence__rule {
     stroke: var(--line-700);
   }
-  .licence__caption {
-    font-family: var(--font-sans);
-    font-size: 13px;
-    fill: var(--text-500);
-  }
-  /* HTML end state = outcome. Seats only exist as the starting state of the animation. */
+  /* HTML end state = outcome (first unit). Seats only exist as the starting state of the animation. */
   .licence__seats {
     display: none;
   }
@@ -211,9 +217,12 @@ const seats = Array.from({ length: 12 }, (_, i) => ({ x: (i % 6) * 46 + 4, y: Ma
     opacity: 0;
     transform: translate(var(--dx), var(--dy)) scale(0.4);
   }
-  .js.motion .licence:not(.is-seats) .licence__seats > text {
+  .js.motion .licence__strike {
+    transition: opacity var(--dur-base) var(--ease-out) 320ms;
+  }
+  .js.motion .licence.is-seats .licence__strike {
     opacity: 0;
-    transition: opacity 300ms var(--ease-in-out);
+    transition: none;
   }
   .js.motion .licence__outcome {
     transition:

@@ -1,27 +1,33 @@
 ---
+// Ordered in three families; the family label is the first item of each card's tag row.
+const REG = { long: 'REGULATED AND PROFESSIONAL SERVICES', short: 'REGULATED SERVICES' };
+const IND = { long: 'INDUSTRIAL AND STRATEGIC', short: 'INDUSTRIAL' };
+const SUP = { long: 'SUPPLY CHAINS', short: 'SUPPLY CHAINS' };
 const sectors = [
-  { name: 'Defence and dual-use', tags: ['Sovereignty', 'Procurement', 'Export control'], outcome: 'Decision support delivered as a managed capability' },
-  { name: 'Insurance', tags: ['Claims', 'Underwriting', 'DORA'], outcome: 'Claims handled, priced per case' },
-  { name: 'Financial services', tags: ['KYC', 'AML', 'DORA'], outcome: 'Onboarding files cleared, priced per file' },
-  { name: 'Healthcare', tags: ['Clinical documentation', 'Data protection', 'Medical devices'], outcome: 'Documentation hours returned to clinicians' },
-  { name: 'Industrial and manufacturing', tags: ['Quality', 'Line monitoring', 'AI Act'], outcome: 'Defects caught per production line' },
-  { name: 'Agri-tech', tags: ['Greenhouse', 'Yield', 'Inputs'], outcome: 'Harvest and input decisions, priced per hectare' },
-  { name: 'Logistics and procurement', tags: ['Tendering', 'Freight', 'Supplier data'], outcome: 'Tenders priced in days' },
-  { name: 'Professional services', tags: ['Audit', 'Compliance', 'Advisory'], outcome: 'Assessments priced per asset' },
+  { family: REG, name: 'Financial services', tags: ['KYC', 'AML', 'DORA'], outcome: 'Onboarding files cleared, priced per file' },
+  { family: REG, name: 'Insurance', tags: ['Claims', 'Underwriting', 'DORA'], outcome: 'Claims handled, priced per case' },
+  { family: REG, name: 'Healthcare', tags: ['Clinical documentation', 'Data protection', 'Medical devices'], outcome: 'Documentation hours returned to clinicians' },
+  { family: REG, name: 'Professional services', tags: ['Audit', 'Compliance', 'Advisory'], outcome: 'Expertise turned into AI-enabled services, priced on the result.' },
+  { family: IND, name: 'Defence and dual-use', tags: ['Sovereignty', 'Procurement', 'Export control'], outcome: 'Decision support delivered as a managed capability' },
+  { family: IND, name: 'Industrial and manufacturing', tags: ['Quality', 'Line monitoring', 'AI Act'], outcome: 'Defects caught per production line' },
+  { family: IND, name: 'Agri-tech', tags: ['Greenhouse', 'Yield', 'Inputs'], outcome: 'Harvest and input decisions, priced per hectare' },
+  { family: SUP, name: 'Logistics and procurement', tags: ['Tendering', 'Freight', 'Supplier data'], outcome: 'Tenders priced in days' },
 ];
 ---
 <section class="section section--alt where" id="where" aria-labelledby="where-title">
   <div class="container">
-    <p class="eyebrow" data-reveal>06 — <span class="eyebrow__rest">WHERE WE WORK</span></p>
+    <p class="eyebrow" data-reveal>06 · <span class="eyebrow__rest">WHERE WE WORK</span></p>
     <div class="section-head where__head">
       <h2 class="h2" id="where-title" data-reveal style="--i:1">Regulated, industrial and service sectors, where results can be priced.</h2>
       <p class="lead" data-reveal style="--i:2">Each card shows the kind of outcome a firm in that sector can buy or sell. These are illustrations of the model, not client results.</p>
+      <p class="body where__experience" data-reveal style="--i:3">Most of our experience is in logistics and procurement, professional and financial services, deep tech (robotics, AI, biotechnology, advanced industry), and defence and security.</p>
     </div>
     <ul class="where__grid">
       {sectors.map((s, i) => (
         <li class="sector" data-reveal style={`--i:${i % 4}`} tabindex="0" aria-labelledby={`sector-${i}`}>
           <h3 class="h3 sector__name" id={`sector-${i}`}>{s.name}</h3>
-          <ul class="tags" aria-label="Constraints">
+          <ul class="tags" aria-label="Family and constraints">
+            <li class="sector__family"><span class="sector__family-long">{s.family.long}</span><span class="sector__family-short">{s.family.short}</span></li>
             {s.tags.map((t) => <li class="tag">{t}</li>)}
           </ul>
           <p class="sector__outcome"><span>{s.outcome}</span></p>
@@ -54,6 +60,36 @@ const sectors = [
   .sector:focus-visible {
     border-color: var(--teal-500);
   }
+  .where__experience {
+    color: var(--text-300);
+    max-width: 62ch;
+  }
+  /* Family label: first item of the tag row, mono caps in text-500 */
+  .sector {
+    container-type: inline-size;
+  }
+  .sector__family {
+    flex-basis: 100%;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-500);
+    padding-block: 2px;
+  }
+  .sector__family-long {
+    display: none;
+  }
+  @container (min-width: 290px) {
+    .sector__family-long {
+      display: inline;
+    }
+    .sector__family-short {
+      display: none;
+    }
+  }
   .sector__outcome {
     margin-top: auto;
     padding-top: var(--s-4);
@@ -81,7 +117,37 @@ const sectors = [
     background-size: 100% 2px;
   }
   @media (hover: none) {
-    .sector__outcome {
+    .where__experience {
+    color: var(--text-300);
+    max-width: 62ch;
+  }
+  /* Family label: first item of the tag row, mono caps in text-500 */
+  .sector {
+    container-type: inline-size;
+  }
+  .sector__family {
+    flex-basis: 100%;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-500);
+    padding-block: 2px;
+  }
+  .sector__family-long {
+    display: none;
+  }
+  @container (min-width: 290px) {
+    .sector__family-long {
+      display: inline;
+    }
+    .sector__family-short {
+      display: none;
+    }
+  }
+  .sector__outcome {
       color: var(--text-100);
     }
   }
