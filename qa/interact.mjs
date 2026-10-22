@@ -48,6 +48,15 @@ const ok = (name, cond, extra = '') => results.push(`${cond ? 'PASS' : 'FAIL'}  
   const p = await ctx.newPage();
   const errors = [];
   p.on('pageerror', (e) => errors.push(String(e)));
+  // Stand-in for the Google Apps Script web app: same request and response shape (status in the body)
+  const sent = [];
+  await p.route('https://script.google.com/**', async (route) => {
+    const req = route.request();
+    const body = JSON.parse(req.postData() || '{}');
+    sent.push({ type: req.headers()['content-type'], body });
+    const reply = body.email === 'limit@example.com' ? { status: 429, ok: false, error: 'rate_limited' } : { status: 200, ok: true };
+    await route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(reply) });
+  });
   await p.goto('http://localhost:4321/');
   await p.waitForTimeout(1500);
   ok('hero canvas live after headline', await p.evaluate(() => document.querySelector('[data-hero-field]').classList.contains('is-live')));
@@ -130,12 +139,18 @@ const ok = (name, cond, extra = '') => results.push(`${cond ? 'PASS' : 'FAIL'}  
   await p.fill('#f-msg', 'A product without customers.');
   await p.click('.form__submit');
   ok('form: invalid email message', (await p.textContent('#f-email-err')) === 'Please add a valid email address.');
+  await p.fill('#f-email', 'limit@example.com');
+  await p.click('.form__submit');
+  await p.waitForTimeout(400);
+  ok('form: rate-limit reply shows a message and keeps the form', /Too many messages/.test(await p.textContent('[data-form-status]')) && (await p.locator('[data-contact-form]').isVisible()));
   await p.fill('#f-email', 'test@example.com');
   ok('form: textarea capped at 1,500', (await p.getAttribute('#f-msg', 'maxlength')) === '1500');
   await p.click('.form__submit');
   await p.waitForTimeout(500);
   ok('form: success replaces form', (await p.locator('[data-form-success]').isVisible()) && !(await p.locator('[data-contact-form]').isVisible()));
   ok('form: success copy', (await p.textContent('[data-form-success]')).trim() === 'Thank you. We will reply within two business days.');
+  const last = sent[sent.length - 1] || {};
+  ok('form: posts JSON as text/plain to the Apps Script URL', /^text\/plain/.test(last.type || '') && last.body?._format === 'json' && last.body?.name === 'Test Person', JSON.stringify(last));
   // A3: units cycle, no number
   await p.locator('[data-licence]').scrollIntoViewIfNeeded();
   await p.waitForTimeout(1600);

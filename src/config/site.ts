@@ -9,8 +9,14 @@ export const CONTACT_EMAIL = 'info@koeos.io';
 /** Confirmed by the owner (revision spec, 22 Oct 2026). */
 export const LINKEDIN_URL = 'https://www.linkedin.com/company/koeos-ventures/';
 
-/** Form submission endpoint. Swap for any provider that accepts the same POST fields. */
-export const CONTACT_ENDPOINT = '/api/contact';
+/**
+ * Form submission endpoint: the Koeos contact form Google Apps Script web app (deployment
+ * AKfycbwnPezd…), which validates, rate-limits and emails each enquiry and stores nothing.
+ * The script source is in docs/contact-form-apps-script.gs. Editing the script with
+ * Deploy > Manage deployments > New version keeps this URL.
+ */
+export const CONTACT_ENDPOINT =
+  'https://script.google.com/macros/s/AKfycbwnPezdX2BftP7yNCqBjZqJ0f_Bs3CQ4nhAM32we2I85oIbzD9awNFUiEspGrMMxDoeXg/exec';
 
 /** Matches the GitHub Pages custom domain (koeos.io). The spec names www.koeos.io; change both together. */
 export const SITE_URL = 'https://koeos.io/';
