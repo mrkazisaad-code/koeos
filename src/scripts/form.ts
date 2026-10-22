@@ -67,25 +67,28 @@ export function initForm() {
     submit.setAttribute('aria-busy', 'true');
     submit.disabled = true;
     try {
+      // Apps Script web apps accept only "simple" cross-origin requests (no preflight), so the JSON
+      // goes as text/plain. The script always answers HTTP 200 and puts the real status in the body.
       const res = await fetch(form.action, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ ...data, _format: 'json' }),
       });
       const body = await res.json().catch(() => ({}));
+      const code = body.status ?? res.status;
       if (res.ok && body.ok) {
         form.hidden = true;
         success.hidden = false;
         success.focus();
         return;
       }
-      if (res.status === 422 && body.errors) {
+      if (code === 422 && body.errors) {
         show(body.errors);
         return;
       }
       status.textContent =
-        res.status === 429
-          ? `Too many messages from this connection. Please try again later, or email ${CONTACT_EMAIL}.`
+        code === 429
+          ? `Too many messages. Please try again later, or email ${CONTACT_EMAIL}.`
           : `The message could not be sent. Please try again, or email ${CONTACT_EMAIL}.`;
     } catch {
       status.textContent = `The message could not be sent. Please try again, or email ${CONTACT_EMAIL}.`;

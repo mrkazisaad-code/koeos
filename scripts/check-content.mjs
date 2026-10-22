@@ -65,7 +65,6 @@ for (const block of src.split(/\n  \{\n/).slice(1)) {
 if (/ACQUISITION_WORDING_CONFIRMED: false/.test(site)) open.push('Track record: acquisition wording withheld until confirmed (CONTENT_FLAGS.ACQUISITION_WORDING_CONFIRMED).');
 if (/TEAM_180_CONFIRMED: false/.test(site)) open.push('Track record: “180 people” needs owner confirmation (CONTENT_FLAGS.TEAM_180_CONFIRMED).');
 notes.push('Contact email (info@koeos.io, as on the previous site): confirm (src/config/site.ts). LinkedIn URL confirmed 22 Oct 2026.');
-notes.push('Contact form has no delivery provider yet: /api/contact does not exist on GitHub Pages (see README).');
 
 if (errors.length) {
   console.error('\nContent check FAILED:\n- ' + errors.join('\n- '));

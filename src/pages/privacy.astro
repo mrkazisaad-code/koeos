@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Footer from '../components/Footer.astro';
 import { CONTACT_EMAIL, SITE_URL } from '../config/site';
-// Approved by the owner (Oct 2026). Revisit the delivery and IP lines once the form provider is chosen.
+// Approved by the owner (Oct 2026). Delivery and IP lines updated for the Google Apps Script form (22 Oct 2026).
 ---
 <Base title="Privacy notice — Koeos" description="How Koeos handles the details you send through the contact form." canonical={new URL('/privacy/', SITE_URL).href} socialTitle="Privacy notice — Koeos" socialDescription="How Koeos handles the details you send through the contact form.">
   <header class="site-header is-scrolled">
@@ -18,11 +18,11 @@ import { CONTACT_EMAIL, SITE_URL } from '../config/site';
         <h2 class="h3">Who we are</h2>
         <p>Koeos, Luxembourg, is responsible for the personal data you send us through this website. You can reach us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
         <h2 class="h3">What we collect</h2>
-        <p>Only what you type into the contact form: your name, organisation, email address, where you are starting from (if you choose to say) and your message. Your IP address is used briefly to limit repeated submissions and is not stored with your message.</p>
+        <p>Only what you type into the contact form: your name, organisation, email address, where you are starting from (if you choose to say) and your message. To limit repeated submissions, a count of messages per hour is kept for one hour against a scrambled form of your email address; your IP address is not used.</p>
         <h2 class="h3">Why we use it</h2>
         <p>We use your details only to reply to you. The legal basis is our legitimate interest in answering an enquiry you chose to send, or steps you ask us to take before a contract.</p>
         <h2 class="h3">How long we keep it</h2>
-        <p>The website does not store form submissions. Your message is delivered to our mailbox and kept only as long as the conversation needs, then deleted.</p>
+        <p>The website does not store form submissions. Your message is passed through Google, which runs our form service, and delivered to our mailbox by email. We keep it only as long as the conversation needs, then delete it.</p>
         <h2 class="h3">Cookies and tracking</h2>
         <p>This website sets no cookies and uses no third-party trackers or analytics. Fonts are served from our own domain.</p>
         <h2 class="h3">Your rights</h2>

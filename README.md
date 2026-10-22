@@ -38,9 +38,16 @@ QA scripts (need `npm run preview` running): `node qa/shots.mjs [--w=360,768] [-
   - Nothing is stored beyond the time it takes to deliver the message.
   - Without JavaScript the form posts natively and the handler returns a minimal HTML page.
 
-### Form delivery: not configured yet
+### Form delivery: Google Apps Script
 
-GitHub Pages serves static files only, so `/api/contact` does not exist there. Until a provider is set up, submissions fail gracefully: the form shows an error that asks people to email `info@koeos.io`. The planned route is a Google Apps Script web app. The handler in `server/contact/` (validation, honeypot, delivery adapters) is ready to reuse. Once the provider is chosen, update the privacy notice's delivery and IP lines.
+The form posts to a Google Apps Script web app (`CONTACT_ENDPOINT` in `src/config/site.ts`). The script validates each enquiry, filters spam, rate-limits it and emails it to the inbox set in its `RECIPIENT` script property. It stores nothing.
+
+- **Script source:** `docs/contact-form-apps-script.gs`, a copy of what is deployed. After editing the script in Google, use **Deploy > Manage deployments > pencil > Version: New version > Deploy**. That keeps the same URL; a "New deployment" creates a new URL that would need updating here.
+- **With JavaScript:** the form sends JSON as `text/plain`, a "simple" request, so the browser does not need a preflight that Apps Script cannot answer. The script replies with `{ status, ok, errors }` and the form shows inline errors or the success message.
+- **Without JavaScript:** the form posts normally and the script returns a short confirmation page with a link back.
+- **Rate limits:** at most 20 messages an hour across the site and 3 an hour per email address. Apps Script does not see visitors' IP addresses.
+
+The handler in `server/contact/` stays as the alternative for a host that runs server functions.
 
 ### Deploying the form on Cloudflare Pages (alternative host)
 
