@@ -1,13 +1,15 @@
 ---
 import '../styles/global.css';
-import { SITE_URL } from '../config/site';
+import { SITE_URL, SOCIAL_TITLE, SOCIAL_DESCRIPTION } from '../config/site';
 interface Props {
   title: string;
   description: string;
   canonical?: string;
   noindex?: boolean;
+  socialTitle?: string;
+  socialDescription?: string;
 }
-const { title, description, canonical = SITE_URL, noindex = false } = Astro.props;
+const { title, description, canonical = SITE_URL, noindex = false, socialTitle = SOCIAL_TITLE, socialDescription = SOCIAL_DESCRIPTION } = Astro.props;
 const ogImage = new URL('/og.png', SITE_URL).href;
 ---
 <!doctype html>
@@ -29,16 +31,16 @@ const ogImage = new URL('/og.png', SITE_URL).href;
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Koeos" />
     <meta property="og:locale" content="en_GB" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={socialTitle} />
+    <meta property="og:description" content={socialDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Koeos. We turn technology into businesses that earn. Four gates and a copper revenue line." />
+    <meta property="og:image:alt" content="Koeos. We make technology pay. Products people use. Operations that cost less to run. Services clients buy. Businesses that grow." />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={socialTitle} />
+    <meta name="twitter:description" content={socialDescription} />
     <meta name="twitter:image" content={ogImage} />
     <script is:inline>
       (function (d) {

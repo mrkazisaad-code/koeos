@@ -5,6 +5,14 @@ export function initTicker() {
   const ticker = document.querySelector<HTMLElement>('[data-ticker]');
   if (!ticker || !motionOn()) return;
   const track = ticker.querySelector<HTMLElement>('.ticker__track');
+  // The loop needs a second copy; it is cloned here so the HTML holds the list once.
+  if (track) {
+    const dup = track.cloneNode(true) as HTMLElement;
+    dup.removeAttribute('aria-label');
+    dup.setAttribute('aria-hidden', 'true');
+    dup.classList.add('ticker__track--dup');
+    track.after(dup);
+  }
   const toggle = ticker.querySelector<HTMLButtonElement>('[data-ticker-toggle]');
   const setDur = () => {
     if (track) ticker.style.setProperty('--ticker-dur', `${(track.scrollWidth / 40).toFixed(2)}s`);

@@ -1,14 +1,15 @@
-import { fmt, motionOn, onceInView, watchVisible } from './util';
+import { motionOn, onceInView, watchVisible } from './util';
 
 /**
- * A3 Licence to outcome. Seats dissolve and reassemble into an outcomes counter that ticks
- * up once every 1.6s from 1,284 while on screen and the tab is visible.
+ * A3 Licence to outcome. Seats (LICENCE · € / SEAT / MONTH) dissolve and the card turns into a
+ * per-outcome price unit that cycles every 2.2s (claim, file, tender, asset) while on screen and
+ * the tab is visible. Reduced motion or no JS: the first unit, static.
  */
 export function initLicence() {
   const svg = document.querySelector<SVGSVGElement>('[data-licence]');
   if (!svg || !motionOn()) return;
-  const num = svg.querySelector<SVGTextElement>('[data-licence-count]')!;
-  let value = 1284;
+  const units = Array.from(svg.querySelectorAll<SVGTextElement>('[data-licence-unit]'));
+  let index = 0;
   let timer = 0;
   let visible = false;
   let started = false;
@@ -18,9 +19,10 @@ export function initLicence() {
     clearInterval(timer);
     if (started && visible && !document.hidden) {
       timer = window.setInterval(() => {
-        value += 1;
-        num.textContent = fmt(value);
-      }, 1600);
+        units[index].classList.remove('is-active');
+        index = (index + 1) % units.length;
+        units[index].classList.add('is-active');
+      }, 2200);
     }
   };
   onceInView(svg, () => {

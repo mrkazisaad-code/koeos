@@ -1,6 +1,6 @@
 ---
 import Arrow from '../Arrow.astro';
-const words = 'We turn technology into businesses that earn.'.split(' ');
+const words = 'We make technology pay.'.split(' ');
 const tags = [
   'Product strategy',
   'Go-to-market',
@@ -11,54 +11,72 @@ const tags = [
   'Venture building',
   'Research IP',
   'Governance',
+  'Product organisation',
+  'Service design',
 ];
-// Gate positions as fractions of the field width; the canvas (A1) uses the same values.
-const gatesWide = [0.34, 0.48, 0.62, 0.76];
-const gatesNarrow = [0.2, 0.38, 0.56, 0.74];
+// A1 geometry, shared by the canvas (src/scripts/hero-field.ts) and this static fallback.
+// Gates as fractions of the box width; revenue curve x = 0.74 + 0.24h, y = 0.70 - 0.28 * h²(1.4 - 0.4h).
+const gates = [0.18, 0.36, 0.54, 0.72];
 const gateLabels = ['CHOOSE', 'TEST', 'BUILD', 'SCALE'];
+const curveY = (h: number) => 0.7 - 0.28 * (h * h * (1.4 - 0.4 * h));
+const curve = Array.from({ length: 21 }, (_, i) => {
+  const h = i / 20;
+  return `${i ? 'L' : 'M'}${(h * 100).toFixed(1)} ${(curveY(h) * 100).toFixed(2)}`;
+}).join('');
+// A few ideas per stage for the static drawing: [x, y, colour, opacity]
+const T500 = '#6F807C';
+const TEAL = '#6FC3B8';
+const COPPER = '#D9894A';
+const dots: [number, number, string, number][] = [
+  [0.03, 0.34, T500, 1], [0.07, 0.52, T500, 1], [0.05, 0.71, T500, 1], [0.11, 0.42, T500, 1], [0.1, 0.8, T500, 1], [0.13, 0.6, T500, 1],
+  [0.17, 0.79, T500, 0.25], [0.16, 0.88, T500, 0.25],
+  [0.23, 0.38, T500, 1], [0.27, 0.62, '#6FA29A', 1], [0.31, 0.48, '#6FA29A', 1], [0.29, 0.77, T500, 1],
+  [0.35, 0.86, T500, 0.25],
+  [0.41, 0.46, TEAL, 1], [0.46, 0.66, TEAL, 1], [0.49, 0.53, TEAL, 1],
+  [0.53, 0.83, TEAL, 0.25],
+  [0.6, 0.5, '#A4A681', 1], [0.66, 0.6, '#A4A681', 1],
+  [0.71, 0.88, '#A4A681', 0.25],
+];
 ---
 <section class="hero bg-grid" id="top" aria-labelledby="hero-title">
   <div class="container hero__inner">
     <div class="hero__copy">
-      <p class="eyebrow hero__eyebrow hero-in" style="--d:0">VENTURE BUILDING · COMMERCIALISATION · AI — FROM LUXEMBOURG, FOR EUROPE</p>
+      <p class="eyebrow hero__eyebrow hero-in" style="--d:0">PRODUCT&nbsp;· OPERATING MODEL&nbsp;· COMMERCIALISATION&nbsp;· VENTURE BUILDING&nbsp;· FROM LUXEMBOURG</p>
       <h1 class="hero__title" id="hero-title">
         {words.map((w, i) => <><span class="hero__word" style={`--w:${i}`}>{w}</span>{i < words.length - 1 ? ' ' : ''}</>)}
       </h1>
-      <p class="lead hero__sub hero-in" style="--d:480ms">Koeos builds the product, the offer and the operating model around technology, and takes it to paying customers in Europe. AI does much of the work. The client pays for the result.</p>
-      <div class="hero__actions hero-in" style="--d:600ms">
+      <p class="lead hero__support hero-in" style="--d:300ms">Products people use. Operations that cost less to run. Services clients buy. Businesses that grow.</p>
+      <p class="lead hero__sub hero-in" style="--d:420ms">Koeos builds the product, the offer and the operating model around technology, from how an organisation works inside to new products, services and businesses in Europe. AI does a growing share of the work.</p>
+      <div class="hero__actions hero-in" style="--d:540ms">
         <a class="btn btn--primary" href="#contact">Start a conversation<Arrow /></a>
         <a class="btn btn--secondary" href="#how">See how we work<Arrow /></a>
       </div>
-      <p class="hero__small hero-in" style="--d:680ms">Operator-led. We have built and sold companies in Europe, the Middle East and South Asia.</p>
+      <p class="hero__small hero-in" style="--d:620ms">Operator-led. We have built, run, sold and invested in companies across Europe, the Middle East, South Asia and the US.</p>
     </div>
-  </div>
 
-  <div class="hero__field" data-hero-field data-gates-wide={gatesWide.join(',')} data-gates-narrow={gatesNarrow.join(',')}>
-    <p class="sr-only" id="hero-field-desc">Illustration of the method: many ideas enter from the left and meet four gates labelled choose, test, build and scale. At each gate about a third are stopped. Those that pass turn from grey to teal to copper and, after the last gate, form a rising line labelled revenue.</p>
-    {[['wide', gatesWide], ['narrow', gatesNarrow]].map(([kind, gates]) => (
-      <svg class={`hero__static hero__static--${kind}`} aria-hidden="true" focusable="false" width="100%" height="100%">
-        {(gates as number[]).map((g, i) => (
+    <div class="hero__field" data-hero-field data-gates-wide={gates.join(',')} data-gates-narrow={gates.join(',')}>
+      <p class="sr-only" id="hero-field-desc">Illustration of the method: many ideas enter from the left and meet four gates labelled choose, test, build and scale. At each gate about a third are stopped. Those that pass turn from grey to teal to copper and, after the last gate, form a rising line labelled revenue.</p>
+      <svg class="hero__static" aria-hidden="true" focusable="false" width="100%" height="100%">
+        {gates.map((g, i) => (
           <g>
-            <line x1={`${g * 100}%`} x2={`${g * 100}%`} y1="56" y2="92%" stroke="#26363B" stroke-width="1" />
+            <line x1={`${g * 100}%`} x2={`${g * 100}%`} y1="56" y2="92%" stroke="#6F807C" stroke-opacity="0.45" stroke-width="1" />
             <text x={`${g * 100}%`} y="40" text-anchor="middle" class="hero__gate-label">{gateLabels[i]}</text>
           </g>
         ))}
-        <svg x={`${(gates as number[])[3] * 100}%`} y="27%" width={`${(1 - (gates as number[])[3]) * 100 - 6}%`} height="50%" viewBox="0 0 100 100" preserveAspectRatio="none" overflow="visible">
-          <path d="M0 92 C 22 90, 34 74, 50 58 S 80 18, 100 6" fill="none" stroke="#D9894A" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" />
+        {dots.map(([x, y, c, o]) => <circle cx={`${x * 100}%`} cy={`${y * 100}%`} r="2.5" fill={c} fill-opacity={o} />)}
+        <svg x="74%" y="0" width="24%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" overflow="visible">
+          <path d={curve} fill="none" stroke="#D9894A" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" />
         </svg>
-        <text x="94%" y="27%" text-anchor="end" class="hero__rev-label" dy="-12">REVENUE</text>
+        <text x="98%" y={`${curveY(1) * 100}%`} dy="-14" text-anchor="end" class="hero__rev-label">REVENUE</text>
       </svg>
-    ))}
-    <canvas class="hero__canvas" aria-hidden="true"></canvas>
+      <canvas class="hero__canvas" aria-hidden="true"></canvas>
+    </div>
   </div>
 
   <div class="ticker" data-ticker>
     <div class="ticker__viewport">
       <div class="ticker__rail" data-ticker-rail>
         <ul class="ticker__track" aria-label="Capabilities">
-          {tags.map((t) => <li>{t}</li>)}
-        </ul>
-        <ul class="ticker__track ticker__track--dup" aria-hidden="true">
           {tags.map((t) => <li>{t}</li>)}
         </ul>
       </div>
@@ -108,6 +126,11 @@ const gateLabels = ['CHOOSE', 'TEST', 'BUILD', 'SCALE'];
   .hero__word {
     display: inline-block;
   }
+  /* Support line: the subhead style, in text-100 */
+  .hero__support {
+    margin-top: var(--s-6);
+    color: var(--text-100);
+  }
   .hero__sub {
     margin-top: var(--s-6);
   }
@@ -122,10 +145,10 @@ const gateLabels = ['CHOOSE', 'TEST', 'BUILD', 'SCALE'];
     font-size: 15px;
     line-height: 1.5;
     color: var(--text-300);
-    max-width: 52ch;
+    max-width: 56ch;
   }
 
-  /* Load sequence: headline word by word, then subhead, buttons, small line */
+  /* Load sequence: headline word by word, then support line, subhead, buttons, small line */
   .js.motion .hero__word {
     animation: hero-word var(--dur-base) var(--ease-out) both;
     animation-delay: calc(var(--w) * 60ms);
@@ -141,11 +164,11 @@ const gateLabels = ['CHOOSE', 'TEST', 'BUILD', 'SCALE'];
     }
   }
 
-  /* A1 field */
+  /* A1 field: below the copy at full content width (height 0.6 × width) */
   .hero__field {
     position: relative;
-    z-index: 1;
-    height: 260px;
+    width: 100%;
+    aspect-ratio: 5 / 3;
     margin-top: var(--s-7);
   }
   .hero__static,
@@ -156,10 +179,8 @@ const gateLabels = ['CHOOSE', 'TEST', 'BUILD', 'SCALE'];
     height: 100%;
   }
   .hero__static {
+    overflow: visible;
     transition: opacity 1.2s var(--ease-in-out);
-  }
-  .hero__static--wide {
-    display: none;
   }
   .hero__canvas {
     opacity: 0;
@@ -185,29 +206,23 @@ const gateLabels = ['CHOOSE', 'TEST', 'BUILD', 'SCALE'];
     letter-spacing: 0.12em;
     fill: var(--copper-400);
   }
+  /* Desktop: right column of the hero grid, max 640 × 420, centred on the copy */
   @media (min-width: 1024px) {
-    .hero {
-      --cw: min(var(--content-max), 100% - 2 * var(--margin));
-      --col: calc((var(--cw) - 11 * var(--gutter)) / 12);
+    .hero__inner {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: center;
     }
     .hero__copy {
+      grid-column: 1 / span 7;
       max-width: none;
-      width: calc(7 * var(--col) + 6 * var(--gutter));
     }
     .hero__field {
-      position: absolute;
-      top: var(--header-h);
-      bottom: 56px;
-      right: 0;
-      left: calc((100% - var(--cw)) / 2 + 5 * (var(--col) + var(--gutter)));
-      height: auto;
+      grid-column: 8 / span 5;
+      justify-self: end;
+      max-width: 640px;
+      aspect-ratio: 640 / 420;
       margin: 0;
-    }
-    .hero__static--wide {
-      display: block;
-    }
-    .hero__static--narrow {
-      display: none;
     }
   }
 
@@ -295,7 +310,6 @@ const gateLabels = ['CHOOSE', 'TEST', 'BUILD', 'SCALE'];
     display: block;
   }
   /* Without motion: one static, wrapped list */
-  :root:not(.motion) .ticker__track--dup,
   :root:not(.motion) .ticker__toggle {
     display: none !important;
   }
@@ -316,7 +330,6 @@ const gateLabels = ['CHOOSE', 'TEST', 'BUILD', 'SCALE'];
     height: 40px;
   }
   @media (prefers-reduced-motion: reduce) {
-    .ticker__track--dup,
     .ticker__toggle {
       display: none !important;
     }

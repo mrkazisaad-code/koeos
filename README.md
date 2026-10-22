@@ -54,4 +54,13 @@ Set `EMAIL_API_KEY`, `CONTACT_TO`, `CONTACT_FROM` and `RATE_SALT`, and optionall
 - Source 7: now the European Commission’s own page (around 14% of GDP, around €2 trillion), so the copy reads “about 14% of GDP”.
 - Privacy notice: approved. Revisit it once the form provider is chosen.
 
-Still to confirm: the contact email (`info@koeos.io`, as on the previous site) and the LinkedIn URL, both in `src/config/site.ts`.
+Still to confirm: the contact email (`info@koeos.io`, as on the previous site) in `src/config/site.ts`.
+
+## Content revision (22 Oct 2026)
+
+Implements *koeos.io revision spec: content and hero animation*. Copy changed in every section except 04. Section 07 is now “From Luxembourg, into Europe”. The sources list is down to five entries, and the metadata is updated (title, description, social tags, social image). Other changes:
+
+- **Hero field:** a fixed box, max 640 × 420 in the right column on desktop. Below 1024px it sits under the buttons at full width, with height 0.6 × width. It is sized by a ResizeObserver. Gates are at 0.18–0.72, and the revenue curve is flatter (x 0.74–0.98, rise 0.28).
+- **Counters:** one element each, holding the final value, so text extraction reads every figure once.
+- **Ticker:** the loop copy is cloned in JavaScript and marked aria-hidden.
+- **Contact form:** the old “starting point” labels map to the new ones in `server/contact/validate.ts`.

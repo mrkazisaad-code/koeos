@@ -1,11 +1,12 @@
 import { motionOn, watchVisible } from './util';
 
 /**
- * A1 Conversion field (single 2D canvas).
- * Ideas (dots) drift in from the left third, meet four gates (CHOOSE, TEST, BUILD, SCALE);
- * about a third of the arrivals stop at each gate, fade to 15% and sink. Survivors turn
- * text-500 → teal-300 → copper-400 and, after the last gate, settle into a rising REVENUE line.
- * 9s cycle with a 1.2s cross-fade, pauses off-screen and on hidden tabs, 30fps cap on mobile.
+ * A1 Conversion field (single 2D canvas), sized from its own box (.hero__field).
+ * Ideas (dots) enter at x 0–0.12, meet four gates at 0.18, 0.36, 0.54 and 0.72 (CHOOSE, TEST,
+ * BUILD, SCALE); about a third of the arrivals stop at each gate, fade to 25% and sink. Survivors
+ * turn text-500 → teal-300 → copper-400 and, after the last gate, settle into a rising REVENUE line
+ * (x 0.74–0.98, rise 0.28 of the box height). 9s cycle with a 1.2s cross-fade, pauses off-screen
+ * and on hidden tabs, 30fps cap on mobile.
  */
 
 type Dot = {
@@ -25,7 +26,7 @@ const C = {
   t500: [111, 128, 124],
   teal: [111, 195, 184],
   copper: [217, 137, 74],
-  line: '#26363B',
+  gate: 'rgba(111, 128, 124, 0.45)', // text-500 at 45%
 };
 const CYCLE = 9;
 const FADE = 1.2;
@@ -53,16 +54,12 @@ export function initHeroField() {
   let dpr = 1;
   let gates: number[] = [];
   let dots: Dot[] = [];
-  let lineStart = 0.8;
   let firstArrival = 4;
 
   const build = () => {
-    const narrow = narrowMQ.matches;
-    const n = narrow ? 70 : 140;
-    gates = (wrap.dataset[narrow || window.innerWidth < 1024 ? 'gatesNarrow' : 'gatesWide'] ?? '0.34,0.48,0.62,0.76')
-      .split(',')
-      .map(Number);
-    lineStart = gates[3] + 0.015;
+    const narrow = window.innerWidth < 1024;
+    const n = narrow ? 50 : 86;
+    gates = (wrap.dataset[narrow ? 'gatesNarrow' : 'gatesWide'] ?? '0.18,0.36,0.54,0.72').split(',').map(Number);
     const r = rng(7);
     // Fates: roughly a third of the arrivals stop at each gate
     const fates: number[] = [];
@@ -78,8 +75,8 @@ export function initHeroField() {
       [fates[i], fates[j]] = [fates[j], fates[i]];
     }
     dots = fates.map((stopAt) => ({
-      x0: r() * (gates[0] - 0.06),
-      y0: 0.22 + r() * 0.62,
+      x0: r() * 0.12,
+      y0: 0.25 + r() * 0.6,
       delay: r() * 1.8,
       speed: 0.2 + r() * 0.1,
       size: 2 + r(),
@@ -99,24 +96,24 @@ export function initHeroField() {
   const arrival = (d: Dot, g: number) => d.delay + (gates[g] - d.x0) / d.speed;
 
   const resize = () => {
-    const rect = wrap.getBoundingClientRect();
     dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = rect.width;
-    H = rect.height;
+    W = wrap.clientWidth;
+    H = wrap.clientHeight;
+    if (!W || !H) return;
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     build();
   };
 
   // Revenue line in field fractions: rises from lower-left to upper-right after the last gate
-  const lineY = (s: number) => 0.76 - 0.47 * (s * s * (1.4 - 0.4 * s));
-  const lineX = (s: number) => lineStart + s * (0.955 - lineStart);
+  const lineY = (s: number) => 0.7 - 0.28 * (s * s * (1.4 - 0.4 * s));
+  const lineX = (s: number) => 0.74 + 0.24 * s;
 
   let pointer: { x: number; y: number } | null = null;
 
   const drawStatic = () => {
     ctx.save();
-    ctx.strokeStyle = C.line;
+    ctx.strokeStyle = C.gate;
     ctx.lineWidth = 1;
     ctx.font = '500 11px "IBM Plex Mono", "Plex Mono Fallback", monospace';
     ctx.textAlign = 'center';
@@ -163,7 +160,7 @@ export function initHeroField() {
         ctx.textAlign = 'right';
         ctx.fillStyle = 'rgb(217,137,74)';
         (ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = '1.3px';
-        ctx.fillText('REVENUE', 0.955 * W, lineY(1) * H - 14);
+        ctx.fillText('REVENUE', 0.98 * W, lineY(1) * H - 14);
       }
       ctx.restore();
     }
@@ -182,7 +179,7 @@ export function initHeroField() {
         // Stopped at a gate: hold just before it, fade to 15% and sink slowly
         const since = t - arrival(d, d.stopAt);
         x = gates[d.stopAt] - 0.006;
-        alpha *= Math.max(0.15, 1 - since / 0.9 * 0.85);
+        alpha *= Math.max(0.25, 1 - (since / 0.9) * 0.75);
         y += Math.min(0.12, since * 0.03);
         passed = d.stopAt;
       }
@@ -223,7 +220,7 @@ export function initHeroField() {
       ctx.globalAlpha = a * alpha;
       ctx.fillStyle = `rgb(${col[0]},${col[1]},${col[2]})`;
       ctx.beginPath();
-      ctx.arc(px, py, d.size / 2, 0, Math.PI * 2);
+      ctx.arc(px, py, d.size, 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.globalAlpha = 1;
@@ -269,11 +266,9 @@ export function initHeroField() {
   const sync = () => (visible && !document.hidden ? start() : stop());
 
   resize();
-  let rT = 0;
-  window.addEventListener('resize', () => {
-    clearTimeout(rT);
-    rT = window.setTimeout(resize, 120);
-  });
+  // Redraw from the box on any size change (window resize, phone rotation, layout shift)
+  if ('ResizeObserver' in window) new ResizeObserver(() => resize()).observe(wrap);
+  else window.addEventListener('resize', resize);
   if (finePointer.matches) {
     wrap.parentElement!.addEventListener('pointermove', (e) => {
       const r = canvas.getBoundingClientRect();
@@ -282,8 +277,8 @@ export function initHeroField() {
     wrap.parentElement!.addEventListener('pointerleave', () => (pointer = null));
   }
 
-  // The field starts after the headline finishes (7 words × 60ms + 420ms)
-  const headlineDone = 7 * 60 + 420;
+  // The field starts after the headline finishes (4 words × 60ms + 420ms)
+  const headlineDone = 4 * 60 + 420;
   const begin = () => {
     wrap.classList.add('is-live');
     watchVisible(wrap, (v) => {

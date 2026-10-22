@@ -13,20 +13,34 @@ const ticks = [
   { d: 365, long: '12 MO', short: '12M' },
 ];
 type Row = { name: string; duration: string; min: number; max: number; tail?: boolean; get: string };
-const rows: Row[] = [
-  { name: 'Working session', duration: 'Half a day', min: 0.5, max: 0.5, get: 'The problem worth solving, and the first test to run' },
-  { name: 'Project-based', duration: '2–8 weeks', min: 14, max: 56, get: 'A tested offer with a price, or a costed 100-day plan' },
-  { name: 'AI build sprint', duration: '4–12 weeks', min: 28, max: 84, get: 'A working agent or product in production, measured by the work it completes' },
-  { name: 'Retainer', duration: '6–12 months', min: 182, max: 365, get: 'Ongoing oversight and decisions while your team executes' },
-  { name: 'Fractional C-level and board', duration: 'Ongoing', min: 182, max: 182, tail: true, get: 'Senior ownership of product, commercialisation or Europe, part time' },
-  { name: 'Embedded operating partner', duration: '12 months and more, full time', min: 365, max: 365, tail: true, get: 'One accountable person running the build inside your team' },
+const groups: { label: string; rows: Row[] }[] = [
+  {
+    label: 'PROJECTS',
+    rows: [
+      { name: 'Working session', duration: 'Half a day', min: 0.5, max: 0.5, get: 'The problem worth solving, and the first test to run' },
+      { name: 'Project-based', duration: '2–8 weeks', min: 14, max: 56, get: 'A tested offer with a price, or a costed 100-day plan' },
+      { name: 'AI build sprint', duration: '4–12 weeks', min: 28, max: 84, get: 'A working agent or product in production, measured by the work it completes' },
+      { name: 'Investment and transaction readiness', duration: '2–6 weeks', min: 14, max: 42, get: 'An investor-ready proposition and a plan for financing or M&A.' },
+    ],
+  },
+  {
+    label: 'OPERATING PARTNERSHIPS',
+    rows: [
+      { name: 'Retainer', duration: '6–12 months', min: 182, max: 365, get: 'Ongoing oversight and decisions while your team executes' },
+      { name: 'Fractional C-level and board', duration: 'Ongoing', min: 182, max: 182, tail: true, get: 'Senior ownership of product, commercialisation or Europe, part time' },
+      { name: 'Embedded operating partner', duration: '12+ months', min: 365, max: 365, tail: true, get: 'One accountable person running the build inside your team' },
+    ],
+  },
 ];
+// Running index for the staggered bar animation across both groups
+let n = 0;
+const indexed = groups.map((g) => ({ ...g, rows: g.rows.map((r) => ({ ...r, i: n++ })) }));
 ---
 <section class="section engage" id="engage" aria-labelledby="engage-title">
   <div class="container">
-    <p class="eyebrow" data-reveal>09 — <span class="eyebrow__rest">ENGAGEMENT</span></p>
+    <p class="eyebrow" data-reveal>09 · <span class="eyebrow__rest">ENGAGEMENT</span></p>
     <div class="section-head engage__head">
-      <h2 class="h2" id="engage-title" data-reveal style="--i:1">Six ways to work together. Each ends in something you can use.</h2>
+      <h2 class="h2" id="engage-title" data-reveal style="--i:1">Seven ways to work together. Each ends in something you can use.</h2>
       <p class="lead" data-reveal style="--i:2">Where the result can be measured, we will price the engagement on it.</p>
     </div>
 
@@ -38,19 +52,24 @@ const rows: Row[] = [
           ))}
         </div>
       </div>
-      <ul class="eng-rows">
-        {rows.map((r, i) => (
-          <li class="eng-row" style={`--i:${i}`}>
-            <h3 class="eng-row__name">{r.name}</h3>
-            <p class="eng-row__dur">{r.duration}</p>
-            <div class={`eng-bar${r.tail ? ' eng-bar--tail' : ''}`} aria-hidden="true" style={`--min:${pct(r.min)};--max:${r.tail ? '100%' : pct(r.max)};--end:${pct(r.max)};--ratio:${r.tail ? '100%' : ((pos(r.min) / pos(r.max)) * 100).toFixed(1) + '%'}`}>
-              <span class="eng-bar__fill"></span>
-              <span class="eng-bar__dot"></span>
-            </div>
-            <p class="eng-row__get"><span class="eng-row__get-label">You get</span> {r.get}</p>
-          </li>
-        ))}
-      </ul>
+      {indexed.map((g) => (
+        <div class="eng-group">
+          <h3 class="eyebrow eng-group__label">{g.label}</h3>
+          <ul class="eng-rows">
+            {g.rows.map((r) => (
+              <li class="eng-row" style={`--i:${r.i}`}>
+                <h4 class="eng-row__name">{r.name}</h4>
+                <p class="eng-row__dur">{r.duration}</p>
+                <div class={`eng-bar${r.tail ? ' eng-bar--tail' : ''}`} aria-hidden="true" style={`--min:${pct(r.min)};--max:${r.tail ? '100%' : pct(r.max)};--end:${pct(r.max)};--ratio:${r.tail ? '100%' : ((pos(r.min) / pos(r.max)) * 100).toFixed(1) + '%'}`}>
+                  <span class="eng-bar__fill"></span>
+                  <span class="eng-bar__dot"></span>
+                </div>
+                <p class="eng-row__get"><span class="eng-row__get-label">You get</span> {r.get}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   </div>
 </section>
@@ -87,6 +106,16 @@ const rows: Row[] = [
   }
   .eng-rows {
     border-bottom: 1px solid var(--line-700);
+  }
+  /* Group labels: eyebrow style, spanning the table */
+  .eng-group + .eng-group {
+    margin-top: var(--s-7);
+  }
+  .eng-group__label {
+    padding-bottom: var(--s-3);
+  }
+  .section .eng-group__label {
+    margin-bottom: 0;
   }
   .eng-row {
     display: grid;

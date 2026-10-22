@@ -1,12 +1,12 @@
-import { DUR, easeOut, fmt, motionOn, onceInView } from './util';
+import { DUR, easeOut, motionOn, onceInView } from './util';
 
 /**
- * A2 / A9 counters. The HTML already holds the final value; when the group enters view the
- * visible (aria-hidden) copy runs from 60% of the value up to the final value over dur-slow.
+ * A2 / A9 counters. Each counter is one element whose HTML text is the final value
+ * (e.g. "€200m+"). On first view the number inside it runs from 0 to the target over dur-slow
+ * and ends on the exact HTML text. Without JS or with reduced motion the HTML shows unchanged.
  */
 export function initCounters() {
-  const groups = document.querySelectorAll<HTMLElement>('[data-counter-group]');
-  groups.forEach((group) => {
+  document.querySelectorAll<HTMLElement>('[data-counter-group]').forEach((group) => {
     if (!motionOn()) {
       group.classList.add('is-counted');
       return;
@@ -14,17 +14,20 @@ export function initCounters() {
     onceInView(group, () => {
       group.classList.add('is-counted');
       group.querySelectorAll<HTMLElement>('[data-count]').forEach((el, i) => {
-        const target = Number(el.dataset.count);
-        const suffix = el.dataset.suffix ?? '';
-        const from = target * 0.6;
-        const delay = i * 80;
-        const t0 = performance.now() + delay;
-        el.textContent = fmt(Math.round(from)) + suffix;
+        const final = el.textContent ?? '';
+        const m = final.match(/^(\D*)(\d[\d,]*)(.*)$/);
+        if (!m) return;
+        const [, pre, num, post] = m;
+        const target = Number(num.replace(/,/g, ''));
+        const t0 = performance.now() + i * 80;
         const tick = (now: number) => {
           const t = Math.min(1, Math.max(0, (now - t0) / DUR.slow));
-          el.textContent = fmt(Math.round(from + (target - from) * easeOut(t))) + suffix;
-          if (t < 1) requestAnimationFrame(tick);
-          else el.textContent = fmt(target) + suffix;
+          if (t >= 1) {
+            el.textContent = final;
+            return;
+          }
+          el.textContent = pre + Math.round(target * easeOut(t)).toLocaleString('en-GB') + post;
+          requestAnimationFrame(tick);
         };
         requestAnimationFrame(tick);
       });
